@@ -1,0 +1,165 @@
+import adminApi from './adminAxios';
+
+// --- Categories ---
+export const getCategories = async (params = {}) => {
+    const response = await adminApi.get('/admin/categories', { params });
+    return response.data;
+};
+
+export const createCategory = async (formData) => {
+    // Expects FormData if image is included, otherwise JSON
+    // If formData is an instance of FormData, axios sets Content-Type automatically
+    const response = await adminApi.post('/admin/categories', formData, {
+        headers: formData instanceof FormData ? { 'Content-Type': 'multipart/form-data' } : {},
+    });
+    return response.data;
+};
+
+export const updateCategory = async (id, formData) => {
+    const response = await adminApi.put(`/admin/categories/${id}`, formData, {
+        headers: formData instanceof FormData ? { 'Content-Type': 'multipart/form-data' } : {},
+    });
+    return response.data;
+};
+
+export const deleteCategory = async (id) => {
+    const response = await adminApi.delete(`/admin/categories/${id}`);
+    return response.data;
+};
+
+// --- Subcategories ---
+export const getSubcategories = async () => {
+    const response = await adminApi.get('/admin/subcategories');
+    return response.data;
+};
+
+export const createSubcategory = async (formData) => {
+    const response = await adminApi.post('/admin/subcategories', formData, {
+        headers: formData instanceof FormData ? { 'Content-Type': 'multipart/form-data' } : {},
+    });
+    return response.data;
+};
+
+export const updateSubcategory = async (id, formData) => {
+    const response = await adminApi.put(`/admin/subcategories/${id}`, formData, {
+        headers: formData instanceof FormData ? { 'Content-Type': 'multipart/form-data' } : {},
+    });
+    return response.data;
+};
+
+export const deleteSubcategory = async (id) => {
+    const response = await adminApi.delete(`/admin/subcategories/${id}`);
+    return response.data;
+};
+
+export const linkSubcategory = async (categoryId, subcategoryId) => {
+    const response = await adminApi.post('/admin/categories/link-subcategory', { categoryId, subcategoryId });
+    return response.data;
+};
+
+// --- Bookings ---
+export const getAllBookings = async () => {
+    const response = await adminApi.get('/admin/bookings');
+    return response.data;
+};
+
+// --- Dashboard ---
+export const getDashboardStats = async () => {
+    const response = await adminApi.get('/admin/stats');
+    return response.data;
+};
+
+// --- User Management ---
+export const getUsers = async () => {
+    const response = await adminApi.get('/admin/users');
+    return response.data;
+};
+
+export const deleteUser = async (id) => {
+    const response = await adminApi.delete(`/admin/users/${id}`);
+    return response.data;
+};
+
+// --- Provider Verification ---
+export const getPendingProviders = async () => {
+    const response = await adminApi.get('/admin/providers/pending');
+    return response.data;
+};
+
+export const verifyProvider = async (id, action) => {
+    // action: 'approve' or 'reject'
+    const response = await adminApi.post(`/admin/providers/${id}/verify`, { action });
+    return response.data;
+};
+
+// --- Services ---
+export const getServices = async (page, limit) => {
+    const params = {};
+    if (page) params.page = page;
+    if (limit) params.limit = limit;
+
+    const response = await adminApi.get('/admin/services', { params });
+    return response.data;
+};
+
+export const createService = async (formData) => {
+    const response = await adminApi.post('/admin/services', formData, {
+        headers: formData instanceof FormData ? { 'Content-Type': 'multipart/form-data' } : {},
+    });
+    return response.data;
+};
+
+export const updateService = async (id, formData) => {
+    const response = await adminApi.put(`/admin/services/${id}`, formData, {
+        headers: formData instanceof FormData ? { 'Content-Type': 'multipart/form-data' } : {},
+    });
+    return response.data;
+};
+
+export const deleteService = async (id) => {
+    const response = await adminApi.delete(`/admin/services/${id}`);
+    return response.data;
+};
+
+// --- Reports ---
+export const getUserReport = async (userId) => {
+    const response = await adminApi.get(`/admin/reports/user/${userId}`);
+    return response.data;
+};
+
+export const getReportAnalytics = async (params) => {
+    const response = await adminApi.get('/admin/reports/analytics', { params });
+    return response.data;
+};
+
+// --- Privileges ---
+export const getPrivileges = async (params = {}) => {
+    const response = await adminApi.get('/admin/privileges', { params });
+    return response.data;
+};
+
+export const createPrivilege = async (data) => {
+    const response = await adminApi.post('/admin/privileges', data);
+    return response.data;
+};
+
+export const updatePrivilege = async (id, data) => {
+    const response = await adminApi.put(`/admin/privileges/${id}`, data);
+    return response.data;
+};
+
+export const deletePrivilege = async (id) => {
+    const response = await adminApi.delete(`/admin/privileges/${id}`);
+    return response.data;
+};
+
+export const getRolePrivileges = async (roleName) => {
+    const response = await adminApi.get(`/admin/roles/${roleName}/privileges`);
+    return response.data;
+};
+
+export const assignRolePrivileges = async (roleName, privilegeIds) => {
+    const response = await adminApi.put('/admin/roles/privileges', { roleName, privilegeIds });
+    return response.data;
+};
+

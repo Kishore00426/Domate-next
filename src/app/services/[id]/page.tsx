@@ -1,0 +1,329 @@
+'use client';
+
+import React, { useEffect, useState } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { useTranslation } from 'react-i18next';
+import { CheckCircle2, XCircle, Wrench, FileText, Loader, Star, User } from 'lucide-react';
+import HomeLayout from '@/components/layouts/HomeLayout';
+
+export default function ServiceDetailPage() {
+    const { t } = useTranslation();
+    const params = useParams();
+    const id = params.id as string;
+    const router = useRouter();
+
+    const [service, setService] = useState<any>(null);
+    const [providers, setProviders] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    // Booking State
+    const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+    const [selectedProvider, setSelectedProvider] = useState<any>(null);
+    const [bookingDate, setBookingDate] = useState("");
+    const [bookingTime, setBookingTime] = useState("");
+    const [bookingNotes, setBookingNotes] = useState("");
+    const [bookingLoading, setBookingLoading] = useState(false);
+    const [bookingError, setBookingError] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                const serviceRes = await fetch(`/api/services/${id}`);
+                const serviceData = await serviceRes.json();
+
+                if (serviceData.success) {
+                    setService(serviceData.service);
+                } else {
+                    setError(t('services.noServices'));
+                    setLoading(false);
+                    return;
+                }
+
+                // Temporary: fetch providers (need to ensure API route exists)
+                const providersRes = await fetch(`/api/services/${id}/providers`);
+                const providersData = await providersRes.json();
+                if (providersData.success) {
+                    setProviders(providersData.providers);
+                }
+            } catch (err) {
+                setError(t('common.error'));
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (id) {
+            fetchData();
+        }
+    }, [id, t]);
+
+    const handleOpenBooking = (provider: any) => {
+        setSelectedProvider(provider);
+        setIsBookingModalOpen(true);
+        setBookingError(null);
+    };
+
+    const handleCloseBooking = () => {
+        setIsBookingModalOpen(false);
+        setSelectedProvider(null);
+        setBookingDate("");
+        setBookingTime("");
+        setBookingNotes("");
+        setBookingError(null);
+    };
+
+    const handleConfirmBooking = async () => {
+        if (!bookingDate || !bookingTime) {
+            setBookingError(t('serviceDetail.errors.dateTimeRequired'));
+            return;
+        }
+
+        setBookingLoading(true);
+        setBookingError(null);
+
+        try {
+            const scheduledDateTime = new Date(`${bookingDate}T${bookingTime}`);
+
+            const response = await fetch('/api/bookings', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    providerId: selectedProvider._id,
+                    serviceId: service._id,
+                    scheduledDate: scheduledDateTime.toISOString(),
+                    notes: bookingNotes
+                })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                setIsBookingModalOpen(false);
+                router.push('/account');
+            } else {
+                setBookingError(data.error);
+            }
+        } catch (err) {
+            setBookingError(t('serviceDetail.errors.bookingFailed'));
+            console.error(err);
+        } finally {
+            setBookingLoading(false);
+        }
+    };
+
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center h-[60vh]">
+                <Loader className="w-10 h-10 text-soft-black animate-spin" />
+            </div>
+        );
+    }
+
+    const parseList = (list: any) => {
+        if (!list) return [];
+        return list.flatMap((item: any) =>
+            typeof item === 'string' ? item.split(',').map((s: string) => s.trim()) : item
+        ).filter((s: string) => s !== "");
+    };
+
+    if (error || !service) {
+        return (
+            <div className="max-w-4xl mx-auto px-6 py-20 text-center">
+                <h2 className="text-2xl font-bold text-red-600 mb-4">{t('common.error')}</h2>
+                <p className="text-gray-600 mb-8">{error || t('services.noServices')}</p>
+                <button
+                    onClick={() => router.push('/services')}
+                    className="text-soft-black font-medium hover:underline flex items-center justify-center gap-2"
+                >
+                    {t('services.backToServices')}
+                </button>
+            </div>
+        );
+    }
+
+    return (
+        <HomeLayout variant="dashboard">
+            <div className="min-h-screen pt-24 md:pt-[100px] pb-20 px-4 md:px-0 bg-beige">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex flex-col lg:flex-row gap-6 md:gap-8">
+                        <div className="w-full lg:w-[60%] space-y-6 md:space-y-8">
+                            <div className="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100">
+                                <div className="aspect-video relative bg-gray-100">
+                                    {service.imageUrl && (
+                                        <img
+                                            src={service.imageUrl}
+                                            alt={service.title}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    )}
+                                    <div className="absolute top-4 left-4">
+                                        <span className="bg-white/90 backdrop-blur px-4 py-1.5 rounded-full text-xs md:text-sm font-semibold text-soft-black shadow-sm">
+                                            {service.category?.name}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="p-4 md:p-8">
+                                    <div className="flex justify-between items-start mb-4">
+                                        <div>
+                                            <h1 className="text-2xl md:text-3xl font-bold text-soft-black mb-2">{service.title}</h1>
+                                            {service.subcategory && (
+                                                <p className="text-gray-500 text-sm">{service.subcategory.name}</p>
+                                            )}
+                                        </div>
+                                        <div className="text-right">
+                                            <div className="text-2xl font-bold text-soft-black">₹{service.price}</div>
+                                            <div className="text-xs text-gray-500">{t('services.startsAt')}</div>
+                                        </div>
+                                    </div>
+                                    <p className="text-gray-600 leading-relaxed bg-gray-50 p-4 rounded-xl">
+                                        {service.detailedDescription}
+                                    </p>
+
+                                    {service.warranty && (
+                                        <div className="mt-4 flex items-center gap-2 text-green-700 bg-green-50 px-4 py-2 rounded-lg w-fit text-sm font-medium">
+                                            <CheckCircle2 className="w-4 h-4" />
+                                            {t('serviceDetail.warranty')}: {service.warranty}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Covered Section */}
+                            {service.whatIsCovered && service.whatIsCovered.length > 0 && (
+                                <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                                    <h3 className="text-lg font-bold text-soft-black mb-4 flex items-center gap-2">
+                                        <CheckCircle2 className="w-5 h-5 text-green-600" />
+                                        {t('serviceDetail.whatCovered')}
+                                    </h3>
+                                    <ul className="list-disc list-inside grid grid-cols-1 gap-3 text-sm text-gray-700">
+                                        {parseList(service.whatIsCovered).map((item: any, index: number) => (
+                                            <li key={index}>{item}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
+
+                            {/* Not Covered Section */}
+                            {service.whatIsNotCovered && service.whatIsNotCovered.length > 0 && (
+                                <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                                    <h3 className="text-lg font-bold text-soft-black mb-4 flex items-center gap-2">
+                                        <XCircle className="w-5 h-5 text-red-600" />
+                                        {t('serviceDetail.whatNotCovered')}
+                                    </h3>
+                                    <ul className="list-disc list-inside grid grid-cols-1 gap-3 text-sm text-gray-700">
+                                        {parseList(service.whatIsNotCovered).map((item: any, index: number) => (
+                                            <li key={index}>{item}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="w-full lg:w-[40%]">
+                            <div className="bg-white rounded-3xl shadow-lg border border-gray-100 p-6 sticky top-24">
+                                <h2 className="text-xl font-bold text-soft-black mb-6">{t('serviceDetail.bookExpert')}</h2>
+
+                                {providers.length > 0 ? (
+                                    <div className="space-y-4 max-h-[calc(100vh-250px)] overflow-y-auto pr-2 custom-scrollbar">
+                                        {providers.map((provider) => (
+                                            <div
+                                                key={provider._id}
+                                                className="group border border-gray-100 rounded-xl p-4 hover:border-gray-800 hover:bg-white transition-all cursor-pointer bg-gray-50/50"
+                                                onClick={() => handleOpenBooking(provider)}
+                                            >
+                                                <div className="flex items-center gap-4">
+                                                    <div className="w-12 h-12 rounded-full bg-soft-black text-white flex items-center justify-center text-lg font-bold shrink-0">
+                                                        {provider.user?.username ? provider.user.username.charAt(0).toUpperCase() : <User className="w-6 h-6" />}
+                                                    </div>
+                                                    <div className="flex-1 min-w-0">
+                                                        <h3 className="font-bold text-soft-black truncate">{provider.user?.username || t('serviceDetail.provider')}</h3>
+                                                        <span className="text-gray-500 text-xs px-2 py-0.5 bg-gray-100 rounded-md">
+                                                            {provider.experience ? `${provider.experience} exp` : t('serviceDetail.trained')}
+                                                        </span>
+                                                    </div>
+                                                    <div className="text-gray-300 group-hover:text-black transition-colors">
+                                                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="text-center py-10 bg-gray-50 rounded-xl">
+                                        <p className="text-gray-500 text-sm">{t('serviceDetail.noExperts')}</p>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Booking Modal */}
+                {isBookingModalOpen && selectedProvider && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in">
+                        <div className="bg-white rounded-3xl w-full max-w-lg shadow-2xl p-6 md:p-8 animate-in zoom-in-95 text-black">
+                            <div className="flex justify-between items-center mb-6">
+                                <h3 className="text-2xl font-bold">{t('serviceDetail.confirmBooking')}</h3>
+                                <button onClick={handleCloseBooking} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                                    <XCircle className="w-6 h-6 text-gray-400" />
+                                </button>
+                            </div>
+                            <div className="space-y-6">
+                                <div className="bg-gray-50 p-4 rounded-xl flex gap-4 items-center">
+                                    <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center shadow-sm">
+                                        <Wrench className="w-6 h-6 text-soft-black" />
+                                    </div>
+                                    <div>
+                                        <p className="font-semibold">{service.title}</p>
+                                        <p className="text-sm text-gray-500">with {selectedProvider.user?.username}</p>
+                                    </div>
+                                </div>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-sm font-medium mb-2">{t('serviceDetail.date')}</label>
+                                        <input
+                                            type="date"
+                                            value={bookingDate}
+                                            onChange={(e) => setBookingDate(e.target.value)}
+                                            className="w-full px-4 py-3 rounded-xl border border-gray-200"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium mb-2">{t('serviceDetail.time')}</label>
+                                        <input
+                                            type="time"
+                                            value={bookingTime}
+                                            onChange={(e) => setBookingTime(e.target.value)}
+                                            className="w-full px-4 py-3 rounded-xl border border-gray-200"
+                                        />
+                                    </div>
+                                </div>
+                                <textarea
+                                    value={bookingNotes}
+                                    onChange={(e) => setBookingNotes(e.target.value)}
+                                    placeholder={t('serviceDetail.notesPlaceholder')}
+                                    className="w-full px-4 py-3 rounded-xl border border-gray-100"
+                                />
+                                {bookingError && <div className="p-3 bg-red-50 text-red-600 rounded-lg">{bookingError}</div>}
+                                <div className="flex gap-3">
+                                    <button onClick={handleCloseBooking} className="flex-1 py-3 bg-gray-100 rounded-xl">{t('serviceDetail.cancel')}</button>
+                                    <button
+                                        onClick={handleConfirmBooking}
+                                        disabled={bookingLoading}
+                                        className="flex-1 py-3 bg-black text-white rounded-xl"
+                                    >
+                                        {bookingLoading ? <Loader className="animate-spin" /> : t('serviceDetail.confirmAndBook')}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </div>
+        </HomeLayout>
+    );
+}
