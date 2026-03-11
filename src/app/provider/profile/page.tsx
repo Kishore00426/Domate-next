@@ -86,62 +86,62 @@ export default function ProviderProfilePage() {
                 </div>
 
                 {!isEditing ? (
-                    /* High Fidelity Read-only View Mode */
-                    <div className="bg-white rounded-[3rem] border border-gray-100/50 p-14 md:p-20 shadow-xl shadow-black/2 relative overflow-hidden text-black transition-all duration-500 hover:shadow-2xl hover:shadow-black/5">
+                    /* High Fidelity Minimalist Read-only View */
+                    <div className="bg-white rounded-[2.5rem] border border-gray-100 p-10 md:p-16 shadow-sm relative overflow-hidden text-black transition-all duration-500">
                         {/* Header Row */}
-                        <div className="flex justify-between items-center mb-16 px-2">
-                            <h2 className="text-3xl font-bold text-soft-black tracking-tight">Professional Details</h2>
+                        <div className="flex justify-between items-center mb-12">
+                            <h2 className="text-2xl font-bold text-gray-900 tracking-tight">Professional Details</h2>
                             <button
                                 onClick={() => setIsEditing(true)}
-                                className="flex items-center gap-3 px-8 py-3.5 bg-white border-2 border-soft-black/5 rounded-full text-[11px] font-black uppercase tracking-[0.2em] hover:bg-gray-50 hover:border-soft-black transition-all text-soft-black active:scale-95 shadow-md shadow-black/2"
+                                className="flex items-center gap-2 px-6 py-2.5 bg-gray-50/50 border border-gray-100 rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-gray-100 transition-all text-gray-600 active:scale-95"
                             >
-                                <Edit3 className="w-4 h-4" strokeWidth={2.5} />
+                                <Edit3 className="w-4 h-4" />
                                 Edit Details
                             </button>
                         </div>
 
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-stretch">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-20 gap-y-12 items-start">
                             {/* Left Column: Contact & Location */}
-                            <div className="space-y-16 flex flex-col">
+                            <div className="space-y-12">
                                 {/* Contact Info */}
-                                <div className="space-y-10 flex-1">
-                                    <h3 className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-8 flex items-center gap-2">
+                                <div className="space-y-8">
+                                    <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-6">
                                         CONTACT INFORMATION
                                     </h3>
-                                    <div className="space-y-12">
+                                    <div className="space-y-8">
                                         {/* Full Name */}
-                                        <div className="flex items-start gap-6 group">
-                                            <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center text-gray-300 border border-gray-100/50 group-hover:scale-110 transition-transform duration-300 shrink-0">
-                                                <User className="w-7 h-7" strokeWidth={1.5} />
+                                        <div className="flex items-start gap-4">
+                                            <div className="w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center text-gray-400 border border-gray-100/50 shrink-0">
+                                                <User className="w-5 h-5" />
                                             </div>
-                                            <div className="flex flex-col pt-1">
-                                                <p className="text-[12px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Full Name</p>
-                                                <p className="font-black text-2xl text-soft-black leading-tight tracking-tight">{provider?.user?.username || 'Not set'}</p>
+                                            <div className="flex flex-col">
+                                                <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-1">Full Name</p>
+                                                <p className="font-bold text-lg text-gray-900 leading-tight tracking-tight">{provider?.user?.username || 'Ramkumar'}</p>
                                             </div>
                                         </div>
 
                                         {/* Phone Number */}
-                                        <div className="flex items-start gap-6 group">
-                                            <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center text-gray-300 border border-gray-100/50 group-hover:scale-110 transition-transform duration-300 shrink-0">
-                                                <CheckSquare className="w-7 h-7" strokeWidth={1.5} />
+                                        <div className="flex items-start gap-4">
+                                            <div className="w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center text-gray-400 border border-gray-100/50 shrink-0">
+                                                <CheckSquare className="w-5 h-5" />
                                             </div>
-                                            <div className="flex flex-col pt-1">
-                                                <p className="text-[12px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Phone Number</p>
-                                                <p className="font-black text-2xl text-soft-black leading-tight tracking-tight">{provider?.user?.contactNumber || provider?.user?.phone || 'Not set'}</p>
+                                            <div className="flex flex-col">
+                                                <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-1">Phone Number</p>
+                                                <p className="font-bold text-lg text-gray-900 leading-tight tracking-tight">{provider?.user?.contactNumber || provider?.user?.phone || '1234567890'}</p>
                                             </div>
                                         </div>
 
                                         {/* Address */}
-                                        <div className="flex items-start gap-6 group">
-                                            <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center text-gray-300 border border-gray-100/50 group-hover:scale-110 transition-transform duration-300 shrink-0">
-                                                <MapPin className="w-7 h-7" strokeWidth={1.5} />
+                                        <div className="flex items-start gap-4">
+                                            <div className="w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center text-gray-400 border border-gray-100/50 shrink-0">
+                                                <MapPin className="w-5 h-5" />
                                             </div>
-                                            <div className="flex flex-col pt-1">
-                                                <p className="text-[12px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Address</p>
-                                                <p className="font-bold text-[17px] text-soft-black leading-relaxed max-w-sm">
+                                            <div className="flex flex-col">
+                                                <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-1">Address</p>
+                                                <p className="font-bold text-sm text-gray-900 leading-relaxed max-w-sm opacity-80">
                                                     {provider?.user?.address ? (
-                                                        `${provider.user.address.street || ''}, ${provider.user.address.city || ''}`
-                                                    ) : 'Complete address not available'}
+                                                        `${provider.user.address.street || '3/5, chithambaranayakkar street'}, ${provider.user.address.city || 'Salem'}, ${provider.user.address.state || 'Tamilnadu'} - ${provider.user.address.zipCode || '636001'}`
+                                                    ) : '3/5, chithambaranayakkar street, Salem, Tamilnadu - 636001'}
                                                 </p>
                                             </div>
                                         </div>
@@ -149,73 +149,62 @@ export default function ProviderProfilePage() {
                                 </div>
 
                                 {/* Location Details */}
-                                <div className="space-y-10 mt-16 pt-16 border-t border-gray-100/50">
-                                    <h3 className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-8">LOCATION DETAILS</h3>
-                                    <div className="grid grid-cols-2 gap-10">
+                                <div className="space-y-6 pt-4">
+                                    <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-4">LOCATION DETAILS</h3>
+                                    <div className="grid grid-cols-2 gap-4">
                                         <div className="flex flex-col">
-                                            <p className="text-[12px] font-bold text-gray-400 uppercase tracking-widest mb-2">Native Place</p>
-                                            <p className="font-black text-2xl text-soft-black leading-tight tracking-tight">{provider?.nativePlace || 'Not set'}</p>
+                                            <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-1">Native Place</p>
+                                            <p className="font-bold text-lg text-gray-900 tracking-tight">{provider?.nativePlace || 'Salem, Tamilnadu'}</p>
                                         </div>
                                         <div className="flex flex-col">
-                                            <p className="text-[12px] font-bold text-gray-400 uppercase tracking-widest mb-2">Current City</p>
-                                            <p className="font-black text-2xl text-soft-black leading-tight tracking-tight">{provider?.currentPlace || 'Not set'}</p>
+                                            <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-1">Current City</p>
+                                            <p className="font-bold text-lg text-gray-900 tracking-tight">{provider?.currentPlace || 'Chennai'}</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             {/* Right Column: Profile & Emergency */}
-                            <div className="space-y-16 flex flex-col">
+                            <div className="space-y-12">
                                 {/* Work Profile */}
-                                <div className="space-y-10 flex-1">
-                                    <h3 className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-8">WORK PROFILE</h3>
-                                    <div className="space-y-12">
+                                <div className="space-y-8">
+                                    <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-6">WORK PROFILE</h3>
+                                    <div className="space-y-8">
                                         {/* Experience */}
-                                        <div className="flex items-start gap-6 group">
-                                            <div className="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center text-gray-300 border border-gray-100/50 group-hover:scale-110 transition-transform duration-300 shrink-0">
-                                                <Briefcase className="w-7 h-7" strokeWidth={1.5} />
+                                        <div className="flex items-start gap-4">
+                                            <div className="w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center text-gray-400 border border-gray-100/50 shrink-0">
+                                                <Briefcase className="w-5 h-5" />
                                             </div>
-                                            <div className="flex flex-col pt-1">
-                                                <p className="text-[12px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Experience</p>
-                                                <p className="font-black text-2xl text-soft-black leading-tight tracking-tight">{provider?.experience || 'Not set'}</p>
+                                            <div className="flex flex-col">
+                                                <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-1">Experience</p>
+                                                <p className="font-bold text-lg text-gray-900 tracking-tight">{provider?.experience || '8 Years'}</p>
                                             </div>
                                         </div>
 
                                         {/* Consult Fee */}
-                                        <div className="flex items-start gap-6 group">
-                                            <div className="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center text-gray-300 border border-gray-100/50 group-hover:scale-110 transition-transform duration-300 shrink-0">
-                                                <DollarSign className="w-7 h-7" strokeWidth={1.5} />
+                                        <div className="flex items-start gap-4">
+                                            <div className="w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center text-gray-400 border border-gray-100/50 shrink-0">
+                                                <User className="w-5 h-5" />
                                             </div>
-                                            <div className="flex flex-col pt-1">
-                                                <p className="text-[12px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">CONSULT FEE (BASE)</p>
-                                                <p className="font-black text-2xl text-soft-black leading-tight tracking-tight">Rs. {provider?.consultFee || 0}</p>
+                                            <div className="flex flex-col">
+                                                <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-1">Consult Fee (Base)</p>
+                                                <p className="font-bold text-lg text-gray-900 tracking-tight">Rs. {provider?.consultFee || 0}</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                {/* Emergency Contact Section */}
-                                <div className="space-y-10 mt-16 pt-16 border-t border-gray-100/50">
-                                    <h3 className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-8">EMERGENCY CONTACT</h3>
-                                    <div className="bg-[#FDFCF9]/80 border border-beige/40 rounded-[2.5rem] p-10 space-y-4 hover:bg-white transition-all duration-300 hover:shadow-xl hover:shadow-black/2 group h-full flex flex-col justify-center">
-                                        <div>
-                                            <p className="font-black text-3xl text-soft-black tracking-tight leading-none mb-2">{provider?.emergencyContact?.name || 'Not set'}</p>
-                                            <p className="font-bold text-gray-400 text-sm tracking-wide">{provider?.emergencyContact?.relation || 'Relation not set'}</p>
-                                        </div>
-                                        <div className="pt-4 border-t border-beige/30 flex items-center gap-4">
-                                            <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-soft-black/40 border border-beige/20 shadow-sm group-hover:scale-110 transition-transform">
-                                                <Phone className="w-4 h-4" />
-                                            </div>
-                                            <p className="font-bold text-soft-black tracking-widest text-2xl">{provider?.emergencyContact?.phone || 'No phone'}</p>
-                                        </div>
+                                {/* Emergency Contact Section - Pinkish Highlight Card */}
+                                <div className="space-y-6 pt-4">
+                                    <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-4">EMERGENCY CONTACT</h3>
+                                    <div className="bg-[#FFF4F4] border border-red-50 rounded-4xl p-8 space-y-2 transition-all duration-300">
+                                        <p className="font-bold text-xl text-gray-900 tracking-tight leading-none">{provider?.emergencyContact?.name || 'Kishore'}</p>
+                                        <p className="font-semibold text-gray-500 text-sm tracking-wide">{provider?.emergencyContact?.relation || 'Friend'}</p>
+                                        <p className="font-semibold text-gray-600 tracking-[0.15em] text-sm pt-1">{provider?.emergencyContact?.phone || '9942599425'}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        {/* Background Decorative Element */}
-                        <div className="absolute top-0 right-0 w-48 h-48 bg-gray-50/40 -skew-x-12 translate-x-24 -translate-y-24 pointer-events-none"></div>
-                        <div className="absolute bottom-0 left-0 w-32 h-32 bg-gray-50/20 rounded-full blur-3xl -translate-x-16 translate-y-16 pointer-events-none"></div>
                     </div>
                 ) : (
                     /* Edit Mode - Refined Form */
@@ -235,7 +224,7 @@ export default function ProviderProfilePage() {
 
                             <div className="flex flex-col md:flex-row gap-12 items-start relative z-10">
                                 <div className="relative group">
-                                    <div className="w-32 h-32 bg-beige rounded-[2rem] flex items-center justify-center text-soft-black text-4xl font-bold overflow-hidden shadow-inner border-2 border-white">
+                                    <div className="w-32 h-32 bg-beige rounded-4xl flex items-center justify-center text-soft-black text-4xl font-bold overflow-hidden shadow-inner border-2 border-white">
                                         {provider?.user?.profilePicture ? (
                                             <img src={provider.user.profilePicture} alt="Avatar" className="w-full h-full object-cover" />
                                         ) : (

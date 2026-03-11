@@ -86,9 +86,13 @@ export default function ServiceDetailPage() {
         try {
             const scheduledDateTime = new Date(`${bookingDate}T${bookingTime}`);
 
+            const token = sessionStorage.getItem('token');
             const response = await fetch('/api/bookings', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
                 body: JSON.stringify({
                     providerId: selectedProvider._id,
                     serviceId: service._id,
@@ -103,6 +107,7 @@ export default function ServiceDetailPage() {
                 setIsBookingModalOpen(false);
                 router.push('/account');
             } else {
+                console.error("Booking failed with trace data:", data.trace);
                 setBookingError(data.error);
             }
         } catch (err) {

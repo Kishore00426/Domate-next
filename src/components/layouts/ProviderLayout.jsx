@@ -44,7 +44,14 @@ const ProviderLayout = ({ children }) => {
                     router.push('/home');
                     return;
                 }
-                setUser(userData.user);
+
+                // Map username to name for the top Navbar plus include location
+                const mappedUser = {
+                    ...userData.user,
+                    name: userData.user.username || userData.user.name,
+                    location: userData.user.address?.city || userData.user.address?.district || 'Unknown'
+                };
+                setUser(mappedUser);
 
                 // 2. Get Provider Specific Data
                 const profileResponse = await getMyProviderProfile();
@@ -68,7 +75,7 @@ const ProviderLayout = ({ children }) => {
         setUser(null);
         setProviderDetails(null);
         sessionStorage.clear();
-        localStorage.removeItem('user');
+        localStorage.clear();
         window.location.href = '/';
     };
 
@@ -87,7 +94,7 @@ const ProviderLayout = ({ children }) => {
     return (
         <div className="min-h-screen bg-[#F8F6F2] flex flex-col text-black">
             {/* Navbar - Simplified for Dashboard */}
-            <Navbar variant="dashboard" user={user} loading={loading} />
+            <Navbar variant="dashboard" user={user} loading={loading} hideSearch={true} hideUser={true} />
 
             {/* Main Layout Container */}
             <div className="flex flex-1 pt-[72px]">
@@ -95,21 +102,21 @@ const ProviderLayout = ({ children }) => {
                 {/* Sidebar - Precise Screenshot Styling */}
                 <aside className="hidden md:flex md:sticky top-[72px] left-0 z-40 h-[calc(100vh-72px)] w-72 bg-white flex-col border-r border-gray-100">
 
-                    {/* User Card - Specific Sidebar Element from Screenshot */}
+                    {/* User Profile Card - Simplified Screenshot Style */}
                     <div className="px-6 py-8">
-                        <div className="flex items-center gap-4 p-5 bg-[#F9F9F9] rounded-4xl border border-gray-50 shadow-sm">
-                            <div className="w-12 h-12 bg-soft-black text-white rounded-full flex items-center justify-center font-bold text-lg">
-                                {user?.username?.charAt(0).toUpperCase() || 'P'}
+                        <div className="flex items-center gap-4 p-5 bg-gray-50/80 rounded-2xl border border-gray-100/50">
+                            <div className="w-12 h-12 bg-gray-900 text-white rounded-full flex items-center justify-center font-bold text-lg shadow-sm ring-2 ring-white">
+                                {user?.name?.charAt(0) || 'R'}
                             </div>
                             <div className="overflow-hidden">
-                                <p className="font-bold text-sm text-soft-black truncate">{user?.username || 'Provider'}</p>
-                                <p className="text-[10px] text-gray-400 font-medium truncate">{user?.email || 'email@example.com'}</p>
+                                <p className="font-bold text-sm text-gray-900 truncate tracking-tight">{user?.name || 'Ramkumar'}</p>
+                                <p className="text-[10px] text-gray-400 font-semibold truncate opacity-70">{user?.email}</p>
                             </div>
                         </div>
                     </div>
 
                     {/* Navigation */}
-                    <nav className="flex-1 px-4 space-y-1 py-2 overflow-y-auto">
+                    <nav className="flex-1 px-4 space-y-1.5 py-2">
                         {navItems.map((item) => {
                             const isActive = pathname === item.path;
                             return (
@@ -117,24 +124,24 @@ const ProviderLayout = ({ children }) => {
                                     key={item.path}
                                     href={item.path}
                                     className={`
-                                        flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300 font-bold text-xs uppercase tracking-widest
+                                        flex items-center gap-4 px-6 py-5 rounded-2xl transition-all duration-300 font-bold text-[10px] uppercase tracking-[0.2em]
                                         ${isActive
-                                            ? 'bg-soft-black text-white shadow-xl shadow-black/10'
-                                            : 'text-gray-400 hover:text-soft-black hover:bg-gray-50'}
+                                            ? 'bg-black text-white shadow-2xl shadow-black/20 translate-x-1'
+                                            : 'text-gray-300 hover:text-black hover:bg-gray-50 hover:translate-x-1'}
                                     `}
                                 >
-                                    <item.icon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-gray-300'}`} />
+                                    <item.icon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-gray-200'} transition-colors`} />
                                     {item.label}
                                 </Link>
                             );
                         })}
                     </nav>
 
-                    {/* Footer Actions - Log Out Pill */}
-                    <div className="p-6 border-t border-gray-50">
+                    {/* Footer Actions */}
+                    <div className="p-6">
                         <button
                             onClick={handleLogout}
-                            className="w-full flex items-center gap-4 px-6 py-4 text-xs font-bold uppercase tracking-widest bg-black text-white hover:bg-gray-800 rounded-2xl transition-all shadow-xl shadow-black/10"
+                            className="w-full flex items-center gap-4 px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] bg-black text-white hover:bg-gray-900 rounded-2xl transition-all shadow-2xl shadow-black/20 active:scale-95"
                         >
                             <LogOut className="w-5 h-5" />
                             Log Out
@@ -142,11 +149,9 @@ const ProviderLayout = ({ children }) => {
                     </div>
                 </aside>
 
-                <main className="flex-1 flex flex-col min-h-0 min-w-0">
-                    <div className="flex-1 p-6 md:p-10 lg:p-14 overflow-x-hidden">
-                        <div className="bg-white rounded-[3rem] shadow-sm border border-gray-100/50 min-h-full">
-                            {children}
-                        </div>
+                <main className="flex-1 flex flex-col min-h-0 min-w-0 bg-[#F8F6F2]">
+                    <div className="flex-1 p-6 md:p-8 lg:p-10 overflow-auto">
+                        {children}
                     </div>
                 </main>
             </div>

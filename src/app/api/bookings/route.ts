@@ -8,8 +8,10 @@ import { getUserFromToken } from "@/lib/auth";
 export async function POST(req: NextRequest) {
     try {
         const user = await getUserFromToken(req) as any;
+        console.log("Token extraction result:", user ? `Found User: ${user._id}, Role: ${user.role?.name || user.role}` : "Null user returned from token");
         if (!user || user.role?.name !== "user") {
-            return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
+            const roleTrace = user ? { roleName: user.role?.name, rawRole: user.role } : null;
+            return NextResponse.json({ success: false, error: "Unauthorized", trace: roleTrace }, { status: 401 });
         }
 
         const { providerId, serviceId, scheduledDate, notes } = await req.json();

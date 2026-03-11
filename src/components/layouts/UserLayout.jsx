@@ -77,6 +77,7 @@ const UserLayout = ({ children }) => {
         { path: '/account', label: 'Overview', icon: LayoutDashboard },
         { path: '/user/bookings', label: 'My Bookings', icon: Calendar },
         { path: '/user/addresses', label: 'Addresses', icon: MapPin },
+        { path: '/user/plans', label: 'My Plans', icon: FileText },
         { path: '/user/settings', label: 'Settings', icon: Settings },
     ];
 
@@ -86,19 +87,19 @@ const UserLayout = ({ children }) => {
             <Navbar variant="dashboard" user={user} loading={!user} />
 
             {/* Main Layout Container */}
-            <div className="flex flex-1 pt-[72px]">
+            <div className="flex flex-1 pt-[50px]">
 
                 {/* Sidebar - Desktop */}
-                <aside className="hidden lg:flex lg:sticky top-[72px] left-0 h-[calc(100vh-72px)] w-80 bg-white border-r border-gray-100 flex-col shadow-sm">
+                <aside className="hidden lg:flex lg:sticky top-[72px] left-0 h-[calc(100vh-72px)] w-80 bg-white border-r border-gray-100 flex-col">
                     {/* User Profile Snippet */}
-                    <div className="p-6">
-                        <div className="flex items-center gap-4 p-4 bg-gray-50/50 rounded-2xl border border-gray-50">
-                            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-soft-black text-xl font-bold ring-2 ring-gray-100/50 uppercase">
+                    <div className="p-4">
+                        <div className="flex items-center gap-4 p-4 bg-white rounded-3xl border border-gray-100/50 shadow-sm">
+                            <div className="w-14 h-14 bg-gray-50 rounded-2xl flex items-center justify-center text-gray-900 text-xl font-black ring-1 ring-gray-100 uppercase">
                                 {user?.name?.charAt(0) || <UserIcon className="w-6 h-6 text-gray-400" />}
                             </div>
                             <div className="overflow-hidden">
-                                <p className="font-bold text-base text-soft-black truncate">{user?.name || 'User'}</p>
-                                <p className="text-xs text-gray-500 truncate font-medium">{user?.email}</p>
+                                <p className="font-black text-base text-gray-900 truncate">{user?.name || 'User'}</p>
+                                <p className="text-xs text-gray-400 truncate font-bold">{user?.email}</p>
                             </div>
                         </div>
                     </div>
@@ -114,8 +115,8 @@ const UserLayout = ({ children }) => {
                                     className={`
                                         flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300 font-bold text-sm
                                         ${isActive
-                                            ? 'bg-soft-black text-white shadow-xl shadow-black/10 translate-x-1'
-                                            : 'text-gray-500 hover:bg-gray-50 hover:text-soft-black hover:translate-x-1'}
+                                            ? 'bg-black text-white shadow-xl shadow-black/10 translate-x-1'
+                                            : 'text-gray-400 hover:bg-gray-50 hover:text-black hover:translate-x-1'}
                                     `}
                                 >
                                     <item.icon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-gray-400'}`} />
@@ -126,10 +127,10 @@ const UserLayout = ({ children }) => {
                     </nav>
 
                     {/* Bottom Action Section */}
-                    <div className="p-6 mt-auto">
+                    <div className="p-4 mt-auto">
                         <button
                             onClick={handleLogout}
-                            className="w-full flex items-center justify-center gap-3 px-6 py-4 text-sm font-bold bg-black text-white hover:bg-gray-800 active:scale-95 rounded-2xl transition-all shadow-xl shadow-black/10"
+                            className="w-full flex items-center justify-start gap-4 px-6 py-4 text-sm font-black bg-black text-white hover:bg-gray-900 active:scale-95 rounded-2xl transition-all shadow-xl shadow-black/10"
                         >
                             <LogOut className="w-5 h-5" />
                             Log Out

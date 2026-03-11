@@ -165,7 +165,7 @@ const ProviderOverview: React.FC<ProviderOverviewProps> = ({
                 ].map((stat, i) => (
                     <div key={i} className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm flex items-center justify-between group hover:shadow-md transition-all">
                         <div>
-                            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">{stat.label}</p>
+                            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">{stat.label}</p>
                             <p className="text-2xl font-bold text-soft-black tracking-tight">{stat.value}</p>
                         </div>
                         <div className={`p-3 rounded-2xl ${stat.bg} ${stat.color} group-hover:scale-110 transition-transform`}>
@@ -181,7 +181,7 @@ const ProviderOverview: React.FC<ProviderOverviewProps> = ({
                 <div className="lg:col-span-2 bg-white p-8 rounded-3xl border border-gray-100 shadow-sm">
                     <div className="flex items-center justify-between mb-8">
                         <div>
-                            <h3 className="font-bold text-soft-black text-lg flex items-center gap-2">
+                            <h3 className="font-semibold text-soft-black text-lg flex items-center gap-2">
                                 <Activity className="w-5 h-5 text-gray-400" /> {t('dashboard.analytics.revenueTrend')}
                             </h3>
                             <p className="text-xs text-gray-400 font-medium">{t('dashboard.analytics.revenueTrendSub')}</p>
@@ -210,7 +210,7 @@ const ProviderOverview: React.FC<ProviderOverviewProps> = ({
 
                 {/* Status Distribution */}
                 <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm">
-                    <h3 className="font-bold text-soft-black text-lg flex items-center gap-2 mb-8">
+                    <h3 className="font-semibold text-soft-black text-lg flex items-center gap-2 mb-8">
                         <PieIcon className="w-5 h-5 text-gray-400" /> {t('dashboard.analytics.jobStatuses')}
                     </h3>
                     <div className="h-[300px] w-full">
@@ -240,7 +240,7 @@ const ProviderOverview: React.FC<ProviderOverviewProps> = ({
 
                 {/* Service Performance (Bar Chart) */}
                 <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm">
-                    <h3 className="font-bold text-soft-black text-lg flex items-center gap-2 mb-8">
+                    <h3 className="font-semibold text-soft-black text-lg flex items-center gap-2 mb-8">
                         <Briefcase className="w-5 h-5 text-gray-400" /> {t('dashboard.analytics.serviceUsage')}
                     </h3>
                     <div className="h-[300px] w-full">
@@ -260,7 +260,7 @@ const ProviderOverview: React.FC<ProviderOverviewProps> = ({
 
                 {/* Top Customers */}
                 <div className="lg:col-span-2 bg-white p-8 rounded-3xl border border-gray-100 shadow-sm">
-                    <h3 className="font-bold text-soft-black text-lg flex items-center gap-2 mb-8">
+                    <h3 className="font-semibold text-soft-black text-lg flex items-center gap-2 mb-8">
                         <Users className="w-5 h-5 text-gray-400" /> {t('dashboard.analytics.topCustomers')}
                     </h3>
                     <div className="h-[300px] w-full">

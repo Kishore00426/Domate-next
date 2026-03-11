@@ -72,7 +72,7 @@ export default function ProviderDocumentsPage() {
             <ProviderLayout>
                 <div className="min-h-[400px] flex flex-col items-center justify-center">
                     <Loader2 className="w-12 h-12 text-gray-200 animate-spin mb-4" />
-                    <p className="text-gray-400 font-bold uppercase tracking-widest text-xs">Accessing vault...</p>
+                    <p className="text-gray-400 font-semibold uppercase tracking-widest text-xs">Accessing vault...</p>
                 </div>
             </ProviderLayout>
         );
@@ -84,11 +84,11 @@ export default function ProviderDocumentsPage() {
                 <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                     <div>
                         <h1 className="text-4xl font-bold text-soft-black tracking-tight mb-2">Verification Vault</h1>
-                        <p className="text-gray-400 font-bold text-sm">Upload required documents to become a verified premium partner.</p>
+                        <p className="text-gray-400 font-semibold text-sm">Upload required documents to become a verified premium partner.</p>
                     </div>
                     <div className="flex items-center gap-2 px-6 py-3 border-2 border-green-500/20 bg-white rounded-full text-green-500 shadow-sm shadow-green-500/5">
                         <ShieldCheck className="w-5 h-5" />
-                        <span className="text-[11px] font-black uppercase tracking-[0.15em]">
+                        <span className="text-[11px] font-bold uppercase tracking-[0.15em]">
                             STATUS: {provider?.approvalStatus?.toUpperCase() || 'PENDING'}
                         </span>
                     </div>
@@ -101,7 +101,7 @@ export default function ProviderDocumentsPage() {
                         </div>
                         <div className="relative z-10">
                             <p className="font-bold text-xl text-amber-900 mb-1">Approval Pending</p>
-                            <p className="text-sm text-amber-700/80 font-bold font-inter leading-relaxed max-w-2xl">
+                            <p className="text-sm text-amber-700/80 font-semibold font-inter leading-relaxed max-w-2xl">
                                 Your documents are currently being processed by our trust & safety team. Once verified, you'll receive a premium badge and start appearing in public searches.
                             </p>
                         </div>
@@ -115,12 +115,12 @@ export default function ProviderDocumentsPage() {
                             <div className="flex items-end justify-between px-2">
                                 <div>
                                     <h2 className="text-2xl font-bold text-soft-black tracking-tight mb-1">{section.title}</h2>
-                                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">{section.subtitle}</p>
+                                    <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-[0.2em]">{section.subtitle}</p>
                                 </div>
                                 <button
                                     onClick={() => handleUpload(section.id)}
                                     disabled={!!uploading}
-                                    className="flex items-center gap-2 px-6 py-3 bg-soft-black text-white rounded-full text-[11px] font-black uppercase tracking-widest hover:bg-black transition-all shadow-xl shadow-black/10 active:scale-95 disabled:opacity-50"
+                                    className="flex items-center gap-2 px-6 py-3 bg-soft-black text-white rounded-full text-[11px] font-bold uppercase tracking-widest hover:bg-black transition-all shadow-xl shadow-black/10 active:scale-95 disabled:opacity-50"
                                 >
                                     {uploading === section.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
                                     Upload New
@@ -135,13 +135,13 @@ export default function ProviderDocumentsPage() {
                                                 <FileText className="w-7 h-7" />
                                             </div>
                                             <div className="flex-1">
-                                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5 font-inter">Document #{index + 1}</p>
+                                                <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-1.5 font-inter">Document #{index + 1}</p>
                                                 <p className="text-base font-bold text-soft-black truncate">{(url as any).split('/').pop()}</p>
                                             </div>
                                             <div className="mt-8 flex items-center justify-between">
                                                 <div className="flex items-center gap-2 text-green-500">
                                                     <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                                                    <span className="text-[10px] font-black uppercase tracking-[0.1em]">VERIFIED</span>
+                                                    <span className="text-[10px] font-bold uppercase tracking-widest">VERIFIED</span>
                                                 </div>
                                                 <button
                                                     onClick={(e) => {
@@ -166,7 +166,7 @@ export default function ProviderDocumentsPage() {
                                     <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center text-gray-300 mb-6 group-hover:text-soft-black group-hover:bg-white group-hover:shadow-md transition-all">
                                         <Upload className="w-7 h-7" />
                                     </div>
-                                    <p className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.1em] group-hover:text-soft-black transition-colors px-10">
+                                    <p className="text-[11px] font-semibold uppercase tracking-widest group-hover:text-soft-black transition-colors px-10">
                                         Drop files or click to upload
                                     </p>
                                 </div>
@@ -199,7 +199,7 @@ export default function ProviderDocumentsPage() {
                             </div>
                         </div>
                     </div>
-                    <div className="absolute right-0 top-0 w-1/3 h-full bg-white/[0.03] -skew-x-12 translate-x-1/2 group-hover:bg-white/[0.05] transition-all duration-700"></div>
+                    <div className="absolute right-0 top-0 w-1/3 h-full bg-white/5 -skew-x-12 translate-x-1/2 group-hover:bg-white/10 transition-all duration-700"></div>
                 </div>
             </div>
         </ProviderLayout>

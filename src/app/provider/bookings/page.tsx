@@ -303,23 +303,23 @@ export default function ProviderBookingsPage() {
                         <table className="w-full border-collapse">
                             <thead>
                                 <tr className="border-b border-gray-50/50">
-                                    <th className="px-10 py-8 text-left text-[11px] font-black text-[#A3A3A3] uppercase tracking-[0.2em] w-[35%]">
+                                    <th className="px-10 py-8 text-left text-[11px] font-bold text-[#A3A3A3] uppercase tracking-[0.2em] w-[35%]">
                                         <span className="pl-2">SERVICE & CUSTO...</span>
                                     </th>
-                                    <th className="px-10 py-8 text-left text-[11px] font-black text-[#A3A3A3] uppercase tracking-[0.2em] w-[15%]">
+                                    <th className="px-10 py-8 text-left text-[11px] font-bold text-[#A3A3A3] uppercase tracking-[0.2em] w-[15%]">
                                         <button onClick={() => requestSort('scheduledDate')} className="flex items-center gap-2 hover:text-soft-black transition-colors">
                                             DATE <SortIcon column="scheduledDate" />
                                         </button>
                                     </th>
-                                    <th className="px-10 py-8 text-left text-[11px] font-black text-[#A3A3A3] uppercase tracking-[0.2em] w-[15%]">
+                                    <th className="px-10 py-8 text-left text-[11px] font-bold text-[#A3A3A3] uppercase tracking-[0.2em] w-[15%]">
                                         <button onClick={() => requestSort('status')} className="flex items-center gap-2 hover:text-soft-black transition-colors">
                                             STATUS <SortIcon column="status" />
                                         </button>
                                     </th>
-                                    <th className="px-10 py-8 text-left text-[11px] font-black text-[#A3A3A3] uppercase tracking-[0.2em] w-[20%]">
+                                    <th className="px-10 py-8 text-left text-[11px] font-bold text-[#A3A3A3] uppercase tracking-[0.2em] w-[20%]">
                                         CONTACT INF...
                                     </th>
-                                    <th className="px-10 py-8 text-right text-[11px] font-black text-[#A3A3A3] uppercase tracking-[0.2em] w-[15%] pr-14">
+                                    <th className="px-10 py-8 text-right text-[11px] font-bold text-[#A3A3A3] uppercase tracking-[0.2em] w-[15%] pr-14">
                                         ACTIONS
                                     </th>
                                 </tr>
@@ -354,7 +354,7 @@ export default function ProviderBookingsPage() {
 
                                             {/* Status */}
                                             <td className="px-10 py-12 align-top pt-[3.2rem]">
-                                                <div className="inline-flex px-6 py-2 rounded-full bg-[#F5F5F5] text-soft-black/70 text-[11px] font-black uppercase tracking-tight whitespace-nowrap">
+                                                <div className="inline-flex px-6 py-2 rounded-full bg-[#F5F5F5] text-soft-black/70 text-[11px] font-bold uppercase tracking-tight whitespace-nowrap">
                                                     {booking.status === 'confirmed' ? 'Completed' : booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
                                                 </div>
                                             </td>
@@ -373,7 +373,7 @@ export default function ProviderBookingsPage() {
                                             {/* Actions */}
                                             <td className="px-10 py-12 align-top text-right pr-14 pt-[3.2rem]">
                                                 <div className="flex items-center justify-end gap-4">
-                                                    <span className="text-[17px] font-black text-soft-black tracking-tight mr-2">
+                                                    <span className="text-[17px] font-bold text-soft-black tracking-tight mr-2">
                                                         ₹{booking.invoice?.totalAmount || booking.service?.price || '0'}
                                                     </span>
 
@@ -428,7 +428,7 @@ export default function ProviderBookingsPage() {
                                         <td colSpan={5} className="py-32 text-center text-gray-400">
                                             <Calendar className="w-16 h-16 text-gray-100 mx-auto mb-5 grayscale opacity-20" />
                                             <p className="text-xl font-bold text-soft-black mb-1">Empty Schedule</p>
-                                            <p className="text-xs uppercase tracking-widest font-black text-gray-300">No bookings found</p>
+                                            <p className="text-xs uppercase tracking-widest font-bold text-gray-300">No bookings found</p>
                                         </td>
                                     </tr>
                                 )}
@@ -439,14 +439,14 @@ export default function ProviderBookingsPage() {
                     {/* Pagination Controls */}
                     {totalPages > 1 && (
                         <div className="px-10 py-10 bg-white border-t border-gray-50/50 flex items-center justify-between">
-                            <p className="text-[11px] font-black text-gray-300 uppercase tracking-[0.2em]">
+                            <p className="text-[11px] font-bold text-gray-300 uppercase tracking-[0.2em]">
                                 Showing <span className="text-soft-black">{(currentPage - 1) * itemsPerPage + 1}</span> - <span className="text-soft-black">{Math.min(currentPage * itemsPerPage, filteredAndSortedBookings.length)}</span> of <span className="text-soft-black">{filteredAndSortedBookings.length}</span> results
                             </p>
                             <div className="flex gap-3">
                                 <button
                                     onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                                     disabled={currentPage === 1}
-                                    className="px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest border border-gray-100 disabled:opacity-30 hover:bg-gray-50 transition-all text-soft-black"
+                                    className="px-6 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-widest border border-gray-100 disabled:opacity-30 hover:bg-gray-50 transition-all text-soft-black"
                                 >
                                     Prev
                                 </button>
@@ -464,7 +464,7 @@ export default function ProviderBookingsPage() {
                                 <button
                                     onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                                     disabled={currentPage === totalPages}
-                                    className="px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest border border-gray-100 disabled:opacity-30 hover:bg-gray-50 transition-all text-soft-black"
+                                    className="px-6 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-widest border border-gray-100 disabled:opacity-30 hover:bg-gray-50 transition-all text-soft-black"
                                 >
                                     Next
                                 </button>
@@ -488,14 +488,14 @@ export default function ProviderBookingsPage() {
                                 <Settings className="w-6 h-6 text-soft-black" />
                             </div>
                             <div>
-                                <h2 className="text-xl font-black text-soft-black tracking-tight">Update Status</h2>
-                                <p className="text-gray-400 text-xs font-bold uppercase tracking-widest">Booking #{selectedBooking._id.slice(-6).toUpperCase()}</p>
+                                <h2 className="text-xl font-bold text-soft-black tracking-tight">Update Status</h2>
+                                <p className="text-gray-400 text-xs font-semibold uppercase tracking-widest">Booking #{selectedBooking._id.slice(-6).toUpperCase()}</p>
                             </div>
                         </div>
 
                         <div className="space-y-6">
                             <div className="space-y-2">
-                                <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest ml-1">Current Status</label>
+                                <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-1">Current Status</label>
                                 <select
                                     className="w-full px-6 py-4 bg-gray-50 border border-transparent rounded-2xl focus:bg-white focus:border-gray-100 outline-none transition-all font-bold text-soft-black cursor-pointer appearance-none"
                                     value={newStatus}
@@ -514,7 +514,7 @@ export default function ProviderBookingsPage() {
 
                             {(newStatus === 'rejected' || newStatus === 'cancelled') && (
                                 <div className="space-y-2">
-                                    <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest ml-1">Reason / Message</label>
+                                    <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-1">Reason / Message</label>
                                     <textarea
                                         className="w-full px-6 py-4 bg-gray-50 border border-transparent rounded-2xl focus:bg-white focus:border-gray-100 outline-none transition-all font-medium text-soft-black resize-none h-32"
                                         placeholder="Explain why the booking is being rejected or cancelled..."
@@ -551,15 +551,15 @@ export default function ProviderBookingsPage() {
                                 <PlusCircle className="w-6 h-6" />
                             </div>
                             <div>
-                                <h2 className="text-xl font-black text-soft-black tracking-tight">Generate Invoice</h2>
-                                <p className="text-gray-400 text-xs font-bold uppercase tracking-widest">Complete job & notify customer</p>
+                                <h2 className="text-xl font-bold text-soft-black tracking-tight">Generate Invoice</h2>
+                                <p className="text-gray-400 text-xs font-semibold uppercase tracking-widest">Complete job & notify customer</p>
                             </div>
                         </div>
 
                         <div className="space-y-8">
                             <div className="grid grid-cols-2 gap-6">
                                 <div className="space-y-2">
-                                    <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest ml-1">Service Price (₹)</label>
+                                    <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-1">Service Price (₹)</label>
                                     <div className="relative">
                                         <IndianRupee className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-300" />
                                         <input
@@ -571,7 +571,7 @@ export default function ProviderBookingsPage() {
                                     </div>
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest ml-1">Extra Charges (₹)</label>
+                                    <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-1">Extra Charges (₹)</label>
                                     <div className="relative">
                                         <IndianRupee className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-300" />
                                         <input
@@ -595,7 +595,7 @@ export default function ProviderBookingsPage() {
                                     <span>₹{(((invoiceForm.servicePrice || 0) + (invoiceForm.serviceCharge || 0)) * 0.18).toFixed(2)}</span>
                                 </div>
                                 <div className="h-px bg-gray-200/50 my-2" />
-                                <div className="flex justify-between items-center text-lg font-black text-soft-black">
+                                <div className="flex justify-between items-center text-lg font-bold text-soft-black">
                                     <span>Total Amount</span>
                                     <span className="text-indigo-600">₹{(((invoiceForm.servicePrice || 0) + (invoiceForm.serviceCharge || 0)) * 1.18).toFixed(2)}</span>
                                 </div>

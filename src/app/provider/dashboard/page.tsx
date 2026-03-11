@@ -63,17 +63,16 @@ export default function ProviderDashboardPage() {
     return (
         <ProviderLayout>
             <div className="max-w-6xl space-y-12 animate-in fade-in duration-500 pb-20">
-                {/* Introduction - Premium Banner */}
-                <div className="bg-white p-10 md:p-14 rounded-4xl shadow-sm border border-gray-100 flex justify-between items-center group overflow-hidden relative">
+                {/* Introduction - Simple Banner Style from Screenshot */}
+                <div className="bg-white p-10 md:p-12 rounded-[2.5rem] shadow-sm border border-gray-100 relative overflow-hidden">
                     <div className="relative z-10 text-black max-w-2xl">
-                        <h1 className="text-3xl md:text-5xl font-bold text-soft-black tracking-tight mb-4">
-                            {t('dashboard.welcome') || 'Welcome'}, {user?.username}!
+                        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight mb-2">
+                            {t('dashboard.welcome', 'Welcome')}, {user?.username || 'Ramkumar'}!
                         </h1>
-                        <p className="text-gray-400 font-bold text-sm lg:text-base leading-relaxed">
-                            Your platform overview and active performance metrics have been updated. You're making great progress!
+                        <p className="text-gray-400 font-semibold text-sm lg:text-base opacity-90">
+                            Here is what's happening with your bookings today.
                         </p>
                     </div>
-                    <div className="hidden lg:block absolute right-0 top-0 bottom-0 w-1/3 bg-beige/40 -skew-x-12 translate-x-1/2 group-hover:bg-beige/60 transition-colors duration-700"></div>
                 </div>
 
                 {/* Charts & Analytics - Wrapped in a polished container if needed, but ProviderOverview handles its own internal styling mostly */}

@@ -12,9 +12,17 @@ interface NavbarProps {
     variant?: 'landing' | 'dashboard';
     user?: any;
     loading?: boolean;
+    hideSearch?: boolean;
+    hideUser?: boolean;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ variant = 'landing', user, loading = false }) => {
+const Navbar: React.FC<NavbarProps> = ({ 
+    variant = 'landing', 
+    user, 
+    loading = false,
+    hideSearch = false,
+    hideUser = false 
+}) => {
     const [isOpen, setIsOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
@@ -112,71 +120,87 @@ const Navbar: React.FC<NavbarProps> = ({ variant = 'landing', user, loading = fa
                 )}
 
 
-                <div className="flex items-center gap-4">
-
-
+                <div className="flex items-center gap-2 md:gap-4">
                     {isDashboard ? (
-                        <div className="flex items-center gap-4 lg:gap-6">
-                            {/* Search Icon */}
-                            <button
-                                onClick={() => dispatch(openSearchModal())}
-                                className="p-2 text-gray-400 hover:text-soft-black transition-all"
-                                title="Search"
-                            >
-                                <Search className="w-5 h-5" strokeWidth={1.5} />
-                            </button>
+                        <div className="flex items-center gap-1 md:gap-4 lg:gap-6">
+                            {/* Search Icon - Hidden on very small screens, shown from md up */}
+                            {!hideSearch && (
+                                <button
+                                    onClick={() => dispatch(openSearchModal())}
+                                    className="hidden md:block p-2 text-gray-400 hover:text-soft-black transition-all"
+                                    title="Search"
+                                >
+                                    <Search className="w-5 h-5" strokeWidth={1.5} />
+                                </button>
+                            )}
 
-                            {/* Language Selector */}
-                            <LanguageDropdown />
+                            {/* Language Selector - Hidden on mobile, handled in hamburger */}
+                            <div className="hidden md:block">
+                                <LanguageDropdown />
+                            </div>
 
-                            {/* Home Icon in Circle */}
+                            {/* Home Icon in Circle - Only show desktop */}
                             {!isServiceProvider && (
                                 <Link
                                     href="/home"
-                                    className="w-10 h-10 bg-black rounded-full flex items-center justify-center text-white shadow-lg shadow-black/20 hover:scale-105 transition-transform active:scale-95"
+                                    className={`hidden md:flex w-10 h-10 rounded-full items-center justify-center transition-all duration-300 ${
+                                        isHomeActive 
+                                        ? 'bg-black text-white shadow-lg shadow-black/20 scale-105' 
+                                        : 'bg-gray-50 text-gray-400 hover:bg-gray-100 hover:text-soft-black'
+                                    }`}
                                     title="Home"
                                 >
-                                    <Home className="w-5 h-5" strokeWidth={2} />
+                                    <Home className="w-5 h-5" strokeWidth={isHomeActive ? 2.5 : 2} />
                                 </Link>
                             )}
 
-                            {/* Services Icon */}
+                            {/* Services Icon - Only show desktop */}
                             {!isServiceProvider && (
                                 <Link
                                     href="/services"
-                                    className="p-2 text-gray-400 hover:text-soft-black transition-all"
+                                    className={`hidden md:flex w-10 h-10 rounded-full items-center justify-center transition-all duration-300 ${
+                                        isServicesActive 
+                                        ? 'bg-black text-white shadow-lg shadow-black/20 scale-105' 
+                                        : 'bg-gray-50 text-gray-400 hover:bg-gray-100 hover:text-soft-black'
+                                    }`}
                                     title="Services"
                                 >
-                                    <LayoutGrid className="w-5 h-5" strokeWidth={1.5} />
+                                    <LayoutGrid className="w-5 h-5" strokeWidth={isServicesActive ? 2.5 : 2} />
                                 </Link>
                             )}
 
-                            {/* Notifications */}
+                            {/* Notifications - Only show desktop */}
                             <Link
                                 href="/notifications"
-                                className="p-2 text-gray-400 hover:text-soft-black transition-all"
+                                className={`hidden md:flex w-10 h-10 rounded-full items-center justify-center transition-all duration-300 ${
+                                    isNotificationsActive 
+                                    ? 'bg-black text-white shadow-lg shadow-black/20 scale-105' 
+                                    : 'bg-gray-50 text-gray-400 hover:bg-gray-100 hover:text-soft-black'
+                                }`}
                                 title="Notifications"
                             >
-                                <Bell className="w-6 h-6" strokeWidth={1.5} />
+                                <Bell className="w-5 h-5" strokeWidth={isNotificationsActive ? 2.5 : 2} />
                             </Link>
 
-                            {/* User Avatar - Simple Circle as per screenshot */}
-                            <Link
-                                href="/account"
-                                className="flex items-center gap-3 pl-4 border-l border-gray-100 hover:opacity-80 transition-opacity"
-                            >
-                                <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center text-white ring-2 ring-gray-50 shadow-sm font-bold uppercase transition-transform active:scale-95">
-                                    {user?.name ? user.name.charAt(0) : <User className="w-5 h-5" />}
-                                </div>
-                                <div className="hidden lg:flex flex-col">
-                                    <span className="text-[10px] font-bold text-gray-400 opacity-60 uppercase tracking-widest leading-none mb-1 flex items-center gap-1">
-                                        <MapPin className="w-2.5 h-2.5" /> {user?.location || t('common.unknownLocation', 'Unknown Location')}
-                                    </span>
-                                    <span className="text-sm font-bold text-soft-black leading-none">
-                                        {user?.name || 'Guest'}
-                                    </span>
-                                </div>
-                            </Link>
+                            {/* User Avatar - Shown on all screens, but simplified on mobile */}
+                            {!hideUser && (
+                                <Link
+                                    href="/account"
+                                    className="flex items-center gap-2 md:gap-3 md:pl-4 md:border-l md:border-gray-100 hover:opacity-80 transition-opacity"
+                                >
+                                    <div className="w-9 h-9 md:w-10 md:h-10 bg-black rounded-full flex items-center justify-center text-white ring-1 md:ring-2 ring-gray-50 shadow-sm font-bold uppercase transition-transform active:scale-95">
+                                        {user?.name ? user.name.charAt(0) : <User className="w-4 h-4 md:w-5 md:h-5" />}
+                                    </div>
+                                    <div className="hidden lg:flex flex-col">
+                                        <span className="text-[10px] font-bold text-gray-400 opacity-60 uppercase tracking-widest leading-none mb-1 flex items-center gap-1">
+                                            <MapPin className="w-2.5 h-2.5" /> {user?.location || t('common.unknownLocation', 'Unknown Location')}
+                                        </span>
+                                        <span className="text-sm font-bold text-soft-black leading-none">
+                                            {user?.name || 'Guest'}
+                                        </span>
+                                    </div>
+                                </Link>
+                            )}
                         </div>
                     ) : (
                         /* Landing Right Section */
@@ -244,15 +268,15 @@ const Navbar: React.FC<NavbarProps> = ({ variant = 'landing', user, loading = fa
                         <>
                             {!isServiceProvider && (
                                 <>
-                                    <Link href="/home" className="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-xl text-black font-medium">
+                                    <Link href="/home" className={`flex items-center gap-3 p-3 rounded-xl font-bold transition-all ${isHomeActive ? 'bg-black text-white shadow-lg' : 'text-gray-500 hover:bg-gray-50'}`}>
                                         <Home className="w-5 h-5" /> Home
                                     </Link>
-                                    <Link href="/services" className="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-xl text-black font-medium">
+                                    <Link href="/services" className={`flex items-center gap-3 p-3 rounded-xl font-bold transition-all ${isServicesActive ? 'bg-black text-white shadow-lg' : 'text-gray-500 hover:bg-gray-50'}`}>
                                         <LayoutGrid className="w-5 h-5" /> Services
                                     </Link>
                                 </>
                             )}
-                            <Link href="/notifications" className="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-xl text-black font-medium">
+                            <Link href="/notifications" className={`flex items-center gap-3 p-3 rounded-xl font-bold transition-all ${isNotificationsActive ? 'bg-black text-white shadow-lg' : 'text-gray-500 hover:bg-gray-50'}`}>
                                 <Bell className="w-5 h-5" /> Notifications
                             </Link>
 
