@@ -124,7 +124,7 @@ const ProviderLayout = ({ children }) => {
                                     key={item.path}
                                     href={item.path}
                                     className={`
-                                        flex items-center gap-4 px-6 py-5 rounded-2xl transition-all duration-300 font-bold text-[10px] uppercase tracking-[0.2em]
+                                        flex items-center gap-4 px-8 py-5 rounded-2xl transition-all duration-300 font-bold text-sm tracking-tight
                                         ${isActive
                                             ? 'bg-black text-white shadow-2xl shadow-black/20 translate-x-1'
                                             : 'text-gray-300 hover:text-black hover:bg-gray-50 hover:translate-x-1'}
@@ -141,7 +141,7 @@ const ProviderLayout = ({ children }) => {
                     <div className="p-6">
                         <button
                             onClick={handleLogout}
-                            className="w-full flex items-center gap-4 px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] bg-black text-white hover:bg-gray-900 rounded-2xl transition-all shadow-2xl shadow-black/20 active:scale-95"
+                            className="w-full flex items-center gap-4 px-10 py-5 text-sm font-bold bg-black text-white hover:bg-gray-900 rounded-2xl transition-all shadow-2xl shadow-black/20 active:scale-95"
                         >
                             <LogOut className="w-5 h-5" />
                             Log Out

@@ -5,7 +5,7 @@ import ProviderLayout from '@/components/layouts/ProviderLayout';
 import {
     Calendar, Filter, Clock, CheckCircle2, XCircle, Search, Mail, Phone, MapPin,
     Loader2, FileText, ChevronUp, ChevronDown, Download, X, Settings,
-    PlusCircle, Check, AlertCircle, IndianRupee
+    PlusCircle, Check, AlertCircle, IndianRupee, ArrowLeft
 } from 'lucide-react';
 import { getProviderBookings, updateBookingStatus, completeBooking } from '@/api/bookings';
 import { format } from 'date-fns';
@@ -246,24 +246,22 @@ export default function ProviderBookingsPage() {
     return (
         <ProviderLayout>
             <div className="animate-in fade-in duration-700">
-                <div className="bg-white rounded-[3rem] shadow-sm border border-gray-100/50 min-h-[calc(100vh-180px)] overflow-hidden flex flex-col">
+                <div className="bg-white rounded-4xl shadow-sm border border-gray-100/50 min-h-[calc(100vh-180px)] overflow-hidden flex flex-col">
                     {/* Header & Search Area */}
-                    <div className="p-10 pb-6 border-b border-gray-50/50">
-                        <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-8">
+                    <div className="p-10 pb-8 border-b border-gray-50/50">
+                        <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-10">
                             <div className="flex items-center gap-6">
                                 <button
                                     onClick={() => window.history.back()}
-                                    className="p-2 text-gray-300 hover:text-soft-black transition-colors"
+                                    className="p-2.5 text-gray-400 hover:text-gray-900 hover:bg-gray-50 rounded-xl transition-all active:scale-90"
                                 >
-                                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                                    </svg>
+                                    <ArrowLeft className="w-5 h-5" />
                                 </button>
-                                <h1 className="text-3xl font-bold text-soft-black tracking-tight">Bookings</h1>
+                                <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Bookings</h1>
                             </div>
 
-                            {/* Filter Tabs */}
-                            <div className="flex bg-[#F5F5F5] p-1.5 rounded-2xl border border-gray-100/50">
+                            {/* Filter Tabs - Pill Style Top Right */}
+                            <div className="flex bg-gray-50/80 p-1.5 rounded-2xl border border-gray-100/50">
                                 {[
                                     { id: 'confirmed', label: 'Current' },
                                     { id: 'pending', label: 'Pending' },
@@ -275,7 +273,7 @@ export default function ProviderBookingsPage() {
                                         className={`
                                             px-8 py-2.5 rounded-xl text-xs font-bold transition-all duration-300
                                             ${filter === tab.id
-                                                ? 'bg-white text-soft-black shadow-xl shadow-black/5'
+                                                ? 'bg-white text-gray-900 shadow-xl shadow-black/5 ring-1 ring-black/5'
                                                 : 'text-gray-400 hover:text-gray-600'}
                                         `}
                                     >
@@ -285,15 +283,17 @@ export default function ProviderBookingsPage() {
                             </div>
                         </div>
 
-                        {/* Search Bar */}
-                        <div className="relative w-full max-w-sm mb-2 group">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-300 group-focus-within:text-soft-black transition-colors" />
+                        {/* Search Bar - Precise Styling */}
+                        <div className="relative w-full max-w-sm group">
+                            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <Search className="w-4.5 h-4.5 text-gray-300 group-focus-within:text-gray-900 transition-colors" />
+                            </div>
                             <input
                                 type="text"
                                 placeholder="Search Customer, Title..."
                                 value={searchTerm}
                                 onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }}
-                                className="w-full pl-12 pr-4 py-3.5 bg-white border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-soft-black/5 text-sm font-medium placeholder:text-gray-300 shadow-sm transition-all"
+                                className="w-full pl-12 pr-4 py-3.5 bg-white border border-gray-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-black/5 focus:border-gray-300 text-sm font-medium placeholder:text-gray-300 transition-all text-gray-900"
                             />
                         </div>
                     </div>
@@ -303,23 +303,23 @@ export default function ProviderBookingsPage() {
                         <table className="w-full border-collapse">
                             <thead>
                                 <tr className="border-b border-gray-50/50">
-                                    <th className="px-10 py-8 text-left text-[11px] font-bold text-[#A3A3A3] uppercase tracking-[0.2em] w-[35%]">
+                                    <th className="px-10 py-8 text-left text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em] w-[35%]">
                                         <span className="pl-2">SERVICE & CUSTO...</span>
                                     </th>
-                                    <th className="px-10 py-8 text-left text-[11px] font-bold text-[#A3A3A3] uppercase tracking-[0.2em] w-[15%]">
-                                        <button onClick={() => requestSort('scheduledDate')} className="flex items-center gap-2 hover:text-soft-black transition-colors">
+                                    <th className="px-10 py-8 text-left text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em] w-[15%]">
+                                        <button onClick={() => requestSort('scheduledDate')} className="flex items-center gap-2 hover:text-gray-900 transition-colors">
                                             DATE <SortIcon column="scheduledDate" />
                                         </button>
                                     </th>
-                                    <th className="px-10 py-8 text-left text-[11px] font-bold text-[#A3A3A3] uppercase tracking-[0.2em] w-[15%]">
-                                        <button onClick={() => requestSort('status')} className="flex items-center gap-2 hover:text-soft-black transition-colors">
+                                    <th className="px-10 py-8 text-left text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em] w-[15%]">
+                                        <button onClick={() => requestSort('status')} className="flex items-center gap-2 hover:text-gray-900 transition-colors">
                                             STATUS <SortIcon column="status" />
                                         </button>
                                     </th>
-                                    <th className="px-10 py-8 text-left text-[11px] font-bold text-[#A3A3A3] uppercase tracking-[0.2em] w-[20%]">
+                                    <th className="px-10 py-8 text-left text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em] w-[20%]">
                                         CONTACT INF...
                                     </th>
-                                    <th className="px-10 py-8 text-right text-[11px] font-bold text-[#A3A3A3] uppercase tracking-[0.2em] w-[15%] pr-14">
+                                    <th className="px-10 py-8 text-right text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em] w-[15%] pr-14">
                                         ACTIONS
                                     </th>
                                 </tr>
@@ -329,16 +329,16 @@ export default function ProviderBookingsPage() {
                                     paginatedBookings.map(booking => (
                                         <tr key={booking._id} className="hover:bg-gray-50/20 transition-all group">
                                             {/* Service & Customer */}
-                                            <td className="px-10 py-12 align-top">
+                                            <td className="px-10 py-10 align-top">
                                                 <div className="space-y-4 pl-2">
                                                     <div className="flex flex-col">
-                                                        <p className="font-bold text-[18px] text-soft-black leading-tight tracking-tight">{booking.service?.title}</p>
+                                                        <p className="font-bold text-[18px] text-gray-900 leading-tight tracking-tight">{booking.service?.title}</p>
                                                         <p className="text-[12px] text-gray-400 font-medium pt-1.5 flex items-center gap-1">
-                                                            Cust: <span className="text-gray-500 font-bold">{booking.user?.username || 'kishore'}</span>
+                                                            Cust: <span className="text-gray-500 font-semibold">{booking.user?.username || 'kishore'}</span>
                                                         </p>
                                                     </div>
-                                                    <div className="inline-block px-5 py-2.5 bg-[#FFFCF5] rounded-xl border border-[#FEF3C7]/40 shadow-sm shadow-[#FEF3C7]/10">
-                                                        <p className="text-[12px] font-bold text-[#D97706]/70 leading-tight">
+                                                    <div className="inline-block px-5 py-2.5 bg-[#FEFCE8] rounded-xl border border-[#FEF3C7] shadow-sm shadow-amber-900/5">
+                                                        <p className="text-[12px] font-bold text-[#D97706]/80 leading-tight">
                                                             "{booking.problemDescription || 'urgent repair'}"
                                                         </p>
                                                     </div>
@@ -346,79 +346,54 @@ export default function ProviderBookingsPage() {
                                             </td>
 
                                             {/* Date */}
-                                            <td className="px-10 py-12 align-top pt-[3.4rem]">
-                                                <div className="text-[15px] font-bold text-soft-black/80">
+                                            <td className="px-10 py-10 align-top pt-[2.8rem]">
+                                                <div className="text-[15px] font-semibold text-gray-700">
                                                     {new Date(booking.scheduledDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric' })}
                                                 </div>
                                             </td>
 
                                             {/* Status */}
-                                            <td className="px-10 py-12 align-top pt-[3.2rem]">
-                                                <div className="inline-flex px-6 py-2 rounded-full bg-[#F5F5F5] text-soft-black/70 text-[11px] font-bold uppercase tracking-tight whitespace-nowrap">
-                                                    {booking.status === 'confirmed' ? 'Completed' : booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
+                                            <td className="px-10 py-10 align-top pt-[2.6rem]">
+                                                <div className="inline-flex px-6 py-2 rounded-full bg-gray-50 text-gray-600 text-[11px] font-bold uppercase tracking-tight whitespace-nowrap border border-gray-100">
+                                                    {booking.status.replace('_', ' ').charAt(0).toUpperCase() + booking.status.replace('_', ' ').slice(1)}
                                                 </div>
                                             </td>
 
                                             {/* Contact Info */}
-                                            <td className="px-10 py-12 align-top pt-14">
+                                            <td className="px-10 py-10 align-top pt-11">
                                                 <div className="text-[14px]">
                                                     {booking.user?.phone || booking.user?.contactNumber ? (
-                                                        <span className="font-bold text-gray-400">{booking.user?.phone || booking.user?.contactNumber}</span>
+                                                        <span className="font-semibold text-gray-400">{booking.user?.phone || booking.user?.contactNumber}</span>
                                                     ) : (
-                                                        <span className="italic font-medium text-gray-200">No info</span>
+                                                        <span className="italic font-medium text-gray-300">No info</span>
                                                     )}
                                                 </div>
                                             </td>
 
                                             {/* Actions */}
-                                            <td className="px-10 py-12 align-top text-right pr-14 pt-[3.2rem]">
-                                                <div className="flex items-center justify-end gap-4">
-                                                    <span className="text-[17px] font-bold text-soft-black tracking-tight mr-2">
+                                            <td className="px-10 py-10 align-top text-right pr-14 pt-[2.6rem]">
+                                                <div className="flex items-center justify-end gap-3">
+                                                    <span className="text-[17px] font-bold text-gray-900 tracking-tight mr-2">
                                                         ₹{booking.invoice?.totalAmount || booking.service?.price || '0'}
                                                     </span>
 
-                                                    {/* Status Update Button */}
+                                                    {/* File/Action Icon - Matches Screenshot Right End */}
                                                     <button
                                                         onClick={() => {
                                                             setSelectedBooking(booking);
-                                                            setNewStatus(booking.status);
-                                                            setStatusMessage(booking.message || '');
-                                                            setShowStatusModal(true);
+                                                            if (booking.status === 'completed' || booking.status === 'work_completed') {
+                                                                handleDownloadInvoice(booking);
+                                                            } else {
+                                                                setNewStatus(booking.status);
+                                                                setStatusMessage(booking.message || '');
+                                                                setShowStatusModal(true);
+                                                            }
                                                         }}
-                                                        className="p-2.5 bg-gray-50 text-gray-500 rounded-xl hover:bg-soft-black hover:text-white transition-all shadow-sm border border-gray-100"
-                                                        title="Change Status"
+                                                        className="p-2.5 bg-blue-50 text-blue-500 rounded-xl hover:bg-blue-600 hover:text-white transition-all shadow-sm border border-blue-100/50"
+                                                        title={booking.status === 'completed' ? "Download Invoice" : "Change Status"}
                                                     >
-                                                        <Settings className="w-4 h-4" />
+                                                        <FileText className="w-5 h-5" />
                                                     </button>
-
-                                                    {/* Invoice Generation Button */}
-                                                    {booking.status !== 'completed' && booking.status !== 'work_completed' && (
-                                                        <button
-                                                            onClick={() => {
-                                                                setSelectedBooking(booking);
-                                                                setInvoiceForm({
-                                                                    servicePrice: booking.service?.price || 0,
-                                                                    serviceCharge: 0
-                                                                });
-                                                                setShowInvoiceModal(true);
-                                                            }}
-                                                            className="p-2.5 bg-indigo-50 text-indigo-600 rounded-xl hover:bg-indigo-600 hover:text-white transition-all shadow-sm border border-indigo-100"
-                                                            title="Generate Invoice"
-                                                        >
-                                                            <PlusCircle className="w-4 h-4" />
-                                                        </button>
-                                                    )}
-
-                                                    {/* Download Invoice Button */}
-                                                    {(booking.status === 'completed' || booking.status === 'work_completed') && (
-                                                        <button
-                                                            onClick={() => handleDownloadInvoice(booking)}
-                                                            className="p-2.5 bg-blue-50 text-blue-600 rounded-xl hover:bg-blue-600 hover:text-white transition-all shadow-sm border border-blue-100"
-                                                            title="Download Invoice"
-                                                        >
-                                                            <Download className="w-4 h-4" />
-                                                        </button>
-                                                    )}
                                                 </div>
                                             </td>
                                         </tr>

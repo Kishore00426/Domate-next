@@ -18,36 +18,56 @@ export default function ProviderDashboardPage() {
     const [providerDetails, setProviderDetails] = useState<any>(null);
     const [bookings, setBookings] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const [updatingId, setUpdatingId] = useState<string | null>(null);
+
+    const fetchData = async () => {
+        try {
+            // Use authenticated API helper
+            const profileData = await getMyProviderProfile();
+
+            if (profileData.success) {
+                setProviderDetails(profileData.provider);
+                setUser(profileData.provider.user);
+
+                const bookingsData = await getProviderBookings();
+                if (bookingsData.success) {
+                    setBookings(bookingsData.bookings || []);
+                }
+            } else {
+                // getMyProviderProfile will handle 401 via axios interceptor if needed
+                // but we check success here for defensive coding
+                if (profileData.error === 'Unauthorized') {
+                    router.push('/login');
+                }
+            }
+        } catch (err) {
+            console.error("Failed to load provider data", err);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                // Use authenticated API helper
-                const profileData = await getMyProviderProfile();
-
-                if (profileData.success) {
-                    setProviderDetails(profileData.provider);
-                    setUser(profileData.provider.user);
-
-                    const bookingsData = await getProviderBookings();
-                    if (bookingsData.success) {
-                        setBookings(bookingsData.bookings || []);
-                    }
-                } else {
-                    // getMyProviderProfile will handle 401 via axios interceptor if needed
-                    // but we check success here for defensive coding
-                    if (profileData.error === 'Unauthorized') {
-                        router.push('/login');
-                    }
-                }
-            } catch (err) {
-                console.error("Failed to load provider data", err);
-            } finally {
-                setLoading(false);
-            }
-        };
         fetchData();
     }, [router]);
+
+    const handleStatusUpdate = async (bookingId: string, status: string) => {
+        setUpdatingId(bookingId);
+        try {
+            const { updateBookingStatus } = await import('@/api/bookings');
+            const result = await updateBookingStatus(bookingId, status);
+            if (result.success) {
+                // Refresh the list
+                await fetchData();
+            } else {
+                alert(result.error || "Failed to update status");
+            }
+        } catch (err) {
+            console.error("Status update failed", err);
+        } finally {
+            setUpdatingId(null);
+        }
+    };
 
     if (loading) {
         return (
@@ -75,7 +95,7 @@ export default function ProviderDashboardPage() {
                     </div>
                 </div>
 
-                {/* Charts & Analytics - Wrapped in a polished container if needed, but ProviderOverview handles its own internal styling mostly */}
+                {/* Charts & Analytics - Wrapped in a polished container if needed */}
                 <div className="animate-in slide-in-from-bottom duration-700 delay-150">
                     <ProviderOverview bookings={bookings} providerDetails={providerDetails} />
                 </div>
@@ -130,10 +150,19 @@ export default function ProviderDashboardPage() {
                                         </div>
 
                                         <div className="flex gap-4">
-                                            <button className="flex-1 bg-soft-black text-white px-6 py-4 rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-black transition-all shadow-xl shadow-black/10 active:scale-95">
+                                            <button 
+                                                onClick={() => handleStatusUpdate(booking._id, 'accepted')}
+                                                disabled={updatingId === booking._id}
+                                                className="flex-1 bg-soft-black text-white px-6 py-4 rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-black transition-all shadow-xl shadow-black/10 active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2"
+                                            >
+                                                {updatingId === booking._id ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
                                                 Accept Request
                                             </button>
-                                            <button className="flex-1 bg-white border border-gray-100 text-gray-400 px-6 py-4 rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-red-50 hover:text-red-500 hover:border-red-100 transition-all active:scale-95">
+                                            <button 
+                                                onClick={() => handleStatusUpdate(booking._id, 'rejected')}
+                                                disabled={updatingId === booking._id}
+                                                className="flex-1 bg-white border border-gray-100 text-gray-400 px-6 py-4 rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-red-50 hover:text-red-500 hover:border-red-100 transition-all active:scale-95 disabled:opacity-50"
+                                            >
                                                 Reject
                                             </button>
                                         </div>
