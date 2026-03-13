@@ -16,9 +16,6 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Domate",
   description: "Professional home services at your doorstep",
-  icons: {
-    icon: "/logo.png",
-  },
 };
 
 export default function RootLayout({
