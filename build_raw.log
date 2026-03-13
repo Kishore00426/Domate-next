@@ -1,0 +1,93 @@
+
+> next-app@0.1.0 build
+> next build
+
+▲ Next.js 16.1.6 (Turbopack)
+- Environments: .env
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 15.5s
+  Running TypeScript ...
+  Collecting page data using 15 workers ...
+  Generating static pages using 15 workers (0/53) ...
+  Generating static pages using 15 workers (13/53) 
+🌐 i18next is maintained with support from Locize — consider powering your project with managed localization (AI, CDN, integrations): https://locize.com 💙
+🌐 i18next is maintained with support from Locize — consider powering your project with managed localization (AI, CDN, integrations): https://locize.com 💙
+  Generating static pages using 15 workers (26/53) 
+  Generating static pages using 15 workers (39/53) 
+✓ Generating static pages using 15 workers (53/53) in 884.4ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /account
+├ ○ /admin
+├ ○ /admin/bookings
+├ ○ /admin/categories
+├ ○ /admin/dashboard
+├ ○ /admin/login
+├ ○ /admin/privileges
+├ ○ /admin/reports
+├ ○ /admin/services
+├ ○ /admin/settings
+├ ○ /admin/users
+├ ○ /admin/verification
+├ ƒ /api/admin/bookings
+├ ƒ /api/admin/categories
+├ ƒ /api/admin/categories/[id]
+├ ƒ /api/admin/providers/[id]/verify
+├ ƒ /api/admin/providers/pending
+├ ƒ /api/admin/reports
+├ ƒ /api/admin/roles
+├ ƒ /api/admin/services
+├ ƒ /api/admin/services/[id]
+├ ƒ /api/admin/stats
+├ ƒ /api/admin/subcategories
+├ ƒ /api/admin/subcategories/[id]
+├ ƒ /api/admin/users
+├ ƒ /api/admin/users/[id]
+├ ƒ /api/auth/login
+├ ƒ /api/auth/me
+├ ƒ /api/auth/register
+├ ƒ /api/bookings
+├ ƒ /api/bookings/[id]/complete
+├ ƒ /api/bookings/[id]/confirm
+├ ƒ /api/bookings/[id]/contact
+├ ƒ /api/bookings/[id]/rate
+├ ƒ /api/bookings/[id]/status
+├ ƒ /api/bookings/my
+├ ƒ /api/bookings/provider
+├ ƒ /api/providers/me
+├ ƒ /api/providers/me/bio
+├ ƒ /api/providers/me/documents
+├ ƒ /api/providers/me/services
+├ ƒ /api/services
+├ ƒ /api/services/[id]
+├ ƒ /api/services/[id]/providers
+├ ƒ /api/services/categories
+├ ƒ /api/services/categories/[name]
+├ ƒ /api/user/addresses
+├ ƒ /api/user/addresses/[id]
+├ ƒ /api/user/bookings/stats
+├ ƒ /api/user/profile
+├ ƒ /api/user/profile-address
+├ ○ /home
+├ ○ /icon.png
+├ ○ /login
+├ ○ /provider/bookings
+├ ○ /provider/dashboard
+├ ○ /provider/documents
+├ ○ /provider/profile
+├ ○ /provider/services
+├ ○ /register
+├ ○ /services
+├ ƒ /services/[id]
+├ ○ /user/addresses
+├ ○ /user/bookings
+└ ○ /user/settings
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
