@@ -109,9 +109,8 @@ export default function AdminDashboardPage() {
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
                         <h1 className="text-2xl font-black text-soft-black tracking-tight mb-1">
-                            {t('admin.welcomeMessage')}
+                            {t('admin.dashboardOverview')}
                         </h1>
-                        <p className="text-gray-500 font-medium">{t('admin.dashboardSubtitle')}</p>
                     </div>
                 </div>
 

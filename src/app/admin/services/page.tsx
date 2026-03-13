@@ -186,7 +186,7 @@ export default function ServicesPage() {
                                                 <span className="text-base font-black text-soft-black">₹{service.price}</span>
                                             </td>
                                             <td className="px-8 py-5 text-right">
-                                                <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100">
+                                                <div className="flex items-center justify-end gap-2">
                                                     <button onClick={() => handleOpenModal(service)} className="p-2.5 text-gray-400 hover:text-soft-black hover:bg-white hover:shadow-sm rounded-xl transition-all">
                                                         <Edit2 className="w-4.5 h-4.5" />
                                                     </button>

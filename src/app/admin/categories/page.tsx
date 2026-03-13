@@ -270,7 +270,7 @@ export default function CategoriesPage() {
                                                 )}
                                             </td>
                                             <td className="px-8 py-5 text-right">
-                                                <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <div className="flex items-center justify-end gap-2">
                                                     <button
                                                         onClick={() => handleOpenModal(item)}
                                                         className="p-2.5 text-gray-400 hover:text-soft-black hover:bg-white hover:shadow-sm rounded-xl transition-all"
