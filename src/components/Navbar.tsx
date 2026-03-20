@@ -5,8 +5,8 @@ import { usePathname, useRouter } from 'next/navigation';
 import { User, MapPin, Home, Menu, X, Search, LogOut, LayoutGrid, Bell, ChevronDown, Check, Globe, Briefcase, Calendar, Upload, LayoutDashboard } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { openSearchModal, closeSearchModal } from '../store/uiSlice';
-import SearchModal from './SearchModal';
 import LanguageDropdown from './LanguageDropdown';
+
 
 interface NavbarProps {
     variant?: 'landing' | 'dashboard';
@@ -24,8 +24,8 @@ const Navbar: React.FC<NavbarProps> = ({
     hideUser = false 
 }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+
+
     const pathname = usePathname();
     const router = useRouter();
     const dispatch = useDispatch();
@@ -212,44 +212,8 @@ const Navbar: React.FC<NavbarProps> = ({
                         </div>
                     )}
 
-                    {/* Mobile Actions: Search & Menu */}
                     <div className="md:hidden flex items-center gap-2">
-                        {mobileSearchOpen ? (
-                            <div className="absolute inset-0 bg-white z-50 px-4 flex items-center gap-2 animate-in fade-in slide-in-from-top-2 shadow-sm rounded-b-3xl">
-                                <Search className="w-5 h-5 text-gray-500" />
-                                <input
-                                    type="text"
-                                    placeholder="Search services..."
-                                    className="flex-1 bg-transparent border-none outline-none text-base text-soft-black placeholder:text-gray-400 h-full py-4"
-                                    value={searchTerm}
-                                    onChange={(e) => {
-                                        setSearchTerm(e.target.value);
-                                        dispatch(openSearchModal());
-                                    }}
-                                    autoFocus
-                                />
-                                <button onClick={() => {
-                                    setMobileSearchOpen(false);
-                                    dispatch(closeSearchModal());
-                                }} className="p-5 text-gray-600 hover:text-black">
-                                    <X className="w-5 h-8" />
-                                </button>
 
-                                {/* Mobile Search Results Modal */}
-                                {(searchTerm && isSearchOpen) && (
-                                    <div className="absolute top-full left-0 w-full px-2">
-                                        <SearchModal searchTerm={searchTerm} />
-                                    </div>
-                                )}
-                            </div>
-                        ) : (
-                            <button
-                                className="p-2 text-soft-black"
-                                onClick={() => setMobileSearchOpen(true)}
-                            >
-                                <Search className="w-6 h-6" />
-                            </button>
-                        )}
 
                         <button
                             className="text-soft-black p-2"
@@ -316,26 +280,6 @@ const Navbar: React.FC<NavbarProps> = ({
                                             </div>
                                         </Link>
 
-                                        {/* Provider Navigation Items in Mobile Menu */}
-                                        {isServiceProvider && (
-                                            <div className="space-y-1 mt-2 mb-2 pl-2 border-l-2 border-gray-100 ml-4">
-                                                <Link href="/provider/dashboard" onClick={() => setIsOpen(false)} className="flex items-center gap-3 p-2 text-gray-600 hover:text-black text-sm font-medium">
-                                                    <LayoutDashboard className="w-4 h-4" /> Overview
-                                                </Link>
-                                                <Link href="/provider/profile" onClick={() => setIsOpen(false)} className="flex items-center gap-3 p-2 text-gray-600 hover:text-black text-sm font-medium">
-                                                    <User className="w-4 h-4" /> Profile
-                                                </Link>
-                                                <Link href="/provider/services" onClick={() => setIsOpen(false)} className="flex items-center gap-3 p-2 text-gray-600 hover:text-black text-sm font-medium">
-                                                    <Briefcase className="w-4 h-4" /> My Services
-                                                </Link>
-                                                <Link href="/provider/bookings" onClick={() => setIsOpen(false)} className="flex items-center gap-3 p-2 text-gray-600 hover:text-black text-sm font-medium">
-                                                    <Calendar className="w-4 h-4" /> Bookings
-                                                </Link>
-                                                <Link href="/provider/documents" onClick={() => setIsOpen(false)} className="flex items-center gap-3 p-2 text-gray-600 hover:text-black text-sm font-medium">
-                                                    <Upload className="w-4 h-4" /> Documents
-                                                </Link>
-                                            </div>
-                                        )}
 
                                         <button
                                             onClick={() => {

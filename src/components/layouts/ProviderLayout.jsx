@@ -100,7 +100,7 @@ const ProviderLayout = ({ children }) => {
             <div className="flex flex-1 pt-[72px]">
 
                 {/* Sidebar - Precise Screenshot Styling */}
-                <aside className="hidden md:flex md:sticky top-[72px] left-0 z-40 h-[calc(100vh-72px)] w-72 bg-white flex-col border-r border-gray-100">
+                <aside className="hidden lg:flex lg:sticky top-[72px] left-0 z-40 h-[calc(100vh-72px)] w-72 bg-white flex-col border-r border-gray-100">
 
                     {/* User Profile Card - Simplified Screenshot Style */}
                     <div className="px-6 py-8">
@@ -150,10 +150,28 @@ const ProviderLayout = ({ children }) => {
                 </aside>
 
                 <main className="flex-1 flex flex-col min-h-0 min-w-0 bg-[#F8F6F2]">
-                    <div className="flex-1 p-6 md:p-8 lg:p-10 overflow-auto">
+                    <div className="flex-1 p-6 lg:p-10 pb-32 lg:pb-10 overflow-auto">
                         {children}
                     </div>
                 </main>
+            </div>
+
+            {/* Mobile Navigation Bar */}
+            <div 
+                className="lg:hidden bg-white flex justify-around items-center px-1 py-2 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]"
+                style={{ position: 'fixed', bottom: 0, left: 0, right: 0, width: '100%', zIndex: 9999, borderTop: '1px solid #f3f4f6', paddingBottom: 'calc(0.5rem + env(safe-area-inset-bottom))' }}
+            >
+                {navItems.map((item) => {
+                    const isActive = item.path === '/provider/dashboard' ? pathname === item.path : pathname.startsWith(item.path);
+                    return (
+                        <Link key={item.path} href={item.path} className={`flex flex-col items-center justify-center p-1 rounded-xl transition-all duration-300 w-16 ${isActive ? 'text-black transform -translate-y-1' : 'text-gray-400 hover:text-gray-600'}`}>
+                            <div className={`p-2 flex items-center justify-center rounded-xl transition-colors ${isActive ? 'bg-black text-white shadow-md' : 'bg-transparent'}`}>
+                                <item.icon className="w-5 h-5" />
+                            </div>
+                            <span className={`text-[10px] mt-1 font-bold truncate w-full text-center ${isActive ? 'text-black' : 'text-gray-400'}`}>{item.label}</span>
+                        </Link>
+                    );
+                })}
             </div>
         </div>
     );

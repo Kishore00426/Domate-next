@@ -141,7 +141,7 @@ const UserLayout = ({ children }) => {
                 {/* Main Content Area */}
                 <main className="flex-1 flex flex-col min-h-0 min-w-0 bg-[#f1efe8]">
                     <div className="flex-1 p-3 sm:p-6 md:p-8 lg:p-10">
-                        <div className="max-w-7xl mx-auto pb-20 lg:pb-0">
+                        <div className="max-w-7xl mx-auto pb-32 lg:pb-0">
                             {children}
                         </div>
                     </div>
@@ -149,12 +149,18 @@ const UserLayout = ({ children }) => {
             </div>
 
             {/* Mobile Navigation Bar - Optional for Better UX */}
-            <div className="lg:hidden fixed bottom-0 left-0 w-full bg-white border-t border-gray-100 flex justify-around p-3 z-50 shadow-[0_-4px_12px_rgba(0,0,0,0.05)]">
+            <div 
+                className="lg:hidden bg-white flex justify-around items-center px-1 py-2 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]"
+                style={{ position: 'fixed', bottom: 0, left: 0, right: 0, width: '100%', zIndex: 9999, borderTop: '1px solid #f3f4f6', paddingBottom: 'calc(0.5rem + env(safe-area-inset-bottom))' }}
+            >
                 {navItems.map((item) => {
                     const isActive = pathname === item.path || (item.path !== '/account' && pathname.startsWith(item.path));
                     return (
-                        <Link key={item.path} href={item.path} className={`p-2 rounded-xl transition-all duration-300 ${isActive ? 'bg-black text-white shadow-lg' : 'text-gray-400'}`}>
-                            <item.icon className="w-6 h-6" />
+                        <Link key={item.path} href={item.path} className={`flex flex-col items-center justify-center p-1 rounded-xl transition-all duration-300 w-16 ${isActive ? 'text-black transform -translate-y-1' : 'text-gray-400 hover:text-gray-600'}`}>
+                            <div className={`p-2 flex items-center justify-center rounded-xl transition-colors ${isActive ? 'bg-black text-white shadow-md' : 'bg-transparent'}`}>
+                                <item.icon className="w-5 h-5" />
+                            </div>
+                            <span className={`text-[10px] mt-1 font-bold truncate w-full text-center ${isActive ? 'text-black' : 'text-gray-400'}`}>{item.label}</span>
                         </Link>
                     );
                 })}

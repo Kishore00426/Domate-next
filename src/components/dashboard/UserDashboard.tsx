@@ -31,9 +31,10 @@ interface UserDashboardProps {
     addressTags?: string[];
 }
 
-const UserDashboard: React.FC<UserDashboardProps> = ({
+const UserDashboard: React.FC<UserDashboardProps & { initialTab?: string }> = ({
     user,
     bookings: passedBookings,
+    initialTab = 'overview'
 }) => {
     const { t } = useTranslation();
     const router = useRouter();
@@ -45,7 +46,7 @@ const UserDashboard: React.FC<UserDashboardProps> = ({
     const [serviceData, setServiceData] = useState<any[]>([]);
     const [providerList, setProviderList] = useState<string[]>([]);
     const [stats, setStats] = useState({ total: 0, completed: 0, rejected: 0, spent: 0 });
-    const [activeTab, setActiveTab] = useState('overview');
+    const [activeTab, setActiveTab] = useState(initialTab);
 
     useEffect(() => {
         if (passedBookings && passedBookings.length > 0) {
@@ -206,40 +207,17 @@ const UserDashboard: React.FC<UserDashboardProps> = ({
                 </div>
             </div>
 
-            {/* Dashboard Navigation Grid - Mobile Only */}
-            <div className="lg:hidden max-w-6xl mx-auto grid grid-cols-2 gap-4 mb-8">
-                {[
-                    { id: 'overview', name: 'Overview', icon: <Activity className="w-6 h-6" /> },
-                    { id: 'bookings', name: 'My Bookings', icon: <Calendar className="w-6 h-6" /> },
-                    { id: 'addresses', name: 'Addresses', icon: <MapPin className="w-6 h-6" /> },
-                    { id: 'plans', name: 'My Plans', icon: <FileText className="w-6 h-6" /> }
-                ].map((item) => (
-                    <button
-                        key={item.id}
-                        onClick={() => setActiveTab(item.id)}
-                        className={`p-6 rounded-4xl border transition-all flex flex-col items-center justify-center gap-3 active:scale-95 ${
-                            activeTab === item.id 
-                            ? 'bg-black text-white border-black shadow-xl' 
-                            : 'bg-white text-gray-400 border-gray-100 shadow-sm'
-                        }`}
-                    >
-                        <div className={activeTab === item.id ? 'text-white' : 'text-indigo-500'}>
-                            {item.icon}
-                        </div>
-                        <span className={`font-bold text-sm ${activeTab === item.id ? 'text-white' : 'text-gray-900'}`}>{item.name}</span>
-                    </button>
-                ))}
-            </div>
+
 
             {activeTab === 'overview' ? (
                 <div className="space-y-8">
                     {/* Summary Cards - Grid Adjusted for Desktop Screenshot */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto px-0">
                         {[
-                            { label: t('dashboard.totalBookings'), value: stats.total, icon: <Package className="w-6 h-6" />, color: 'bg-blue-50 text-blue-600' },
-                            { label: t('dashboard.accepted', 'Accepted'), value: stats.completed, icon: <CheckCircle className="w-6 h-6" />, color: 'bg-green-50 text-green-600' },
-                            { label: t('dashboard.rejected'), value: stats.rejected, icon: <XCircle className="w-6 h-6" />, color: 'bg-red-50 text-red-600' },
-                            { label: t('dashboard.totalSpent'), value: `₹${stats.spent.toFixed(0)}`, icon: <CreditCard className="w-6 h-6" />, color: 'bg-indigo-50 text-indigo-600' }
+                            { label: t('dashboard.analytics.totalBookings'), value: stats.total, icon: <Package className="w-6 h-6" />, color: 'bg-blue-50 text-blue-600' },
+                            { label: t('dashboard.statusLabel.accepted', 'Accepted'), value: stats.completed, icon: <CheckCircle className="w-6 h-6" />, color: 'bg-green-50 text-green-600' },
+                            { label: t('dashboard.analytics.rejected'), value: stats.rejected, icon: <XCircle className="w-6 h-6" />, color: 'bg-red-50 text-red-600' },
+                            { label: t('dashboard.analytics.totalSpent'), value: `₹${stats.spent.toFixed(0)}`, icon: <CreditCard className="w-6 h-6" />, color: 'bg-indigo-50 text-indigo-600' }
                         ].map((card, i) => (
                             <div key={i} className="bg-white p-5 rounded-3xl shadow-sm border border-gray-100/50 flex items-center gap-4 hover:shadow-md transition-shadow">
                                 <div className={`p-3 ${card.color} rounded-2xl shrink-0`}>
@@ -259,7 +237,7 @@ const UserDashboard: React.FC<UserDashboardProps> = ({
                         <div className="bg-white p-6 rounded-4xl shadow-sm border border-gray-100 lg:col-span-2">
                             <div className="flex items-center gap-2 mb-6">
                                 <div className="p-2 bg-indigo-50 text-indigo-600 rounded-lg"><Activity className="w-5 h-5" /></div>
-                                <h2 className="text-lg font-bold text-gray-900">{t('dashboard.providerBreakdown', 'Service & Provider Insights')}</h2>
+                                <h2 className="text-lg font-bold text-gray-900">{t('dashboard.analytics.providerBreakdown', 'Service & Provider Insights')}</h2>
                             </div>
                             <div className="h-[350px] md:h-[450px] w-full">
                                 {loading ? <div className="h-full w-full animate-pulse bg-gray-50 rounded-2xl" /> : (
